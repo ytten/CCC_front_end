@@ -6,9 +6,7 @@ import './Map.css';
 import data from './data.json';
 import { Col, InputNumber, Row, Slider, Space } from 'antd';
 import Wordcloud from './WordCloud'
-import PieChart from './PieChart';
-import { Pie } from '@ant-design/charts';
-// axios
+import PieChart from './PieChart';// axios
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoieXR0ZW4iLCJhIjoiY2xoMW03bXMzMTRreTNzcWhvMDZjbngxeSJ9.zqejo9sD3BqcxLbnKkB5yg';
@@ -159,19 +157,25 @@ const DemoAreaMap = () => {
         property={active.property}
         changeState={changeState}
       /> */}
+      <Row>
       <Col span={12}>
         <Slider
           min={1}
           max={2}
           onChange={onChange}
           value={typeof inputValue === 'number' ? inputValue : 0}
-          style={{top:'50px', left: '70px', width:'880px'}}
+          
         />
       </Col>
-      <PieChart>
-      </PieChart>
-      <Wordcloud>
-      </Wordcloud>
+      </Row>
+      <Row>
+      <Col span={12}><Wordcloud>
+      </Wordcloud></Col>
+      
+      <Col span={12}><PieChart>
+      </PieChart></Col>
+      </Row>
+      
       
       </div>
   );

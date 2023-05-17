@@ -45,6 +45,35 @@ class Wordcloudl extends React.Component{
                           width:'90%',
                           height:'110%',
                   data:[
+                    {
+                        name: 'Sam S Club',
+                        value: 10000,
+                    },{
+                        name: 'Sam S Club',
+                        value: 10000,
+                    },{
+                        name: 'Sam S Club',
+                        value: 10000,
+                    },{
+                        name: 'Sam S Club',
+                        value: 10000,
+                    },{
+                        name: 'Sam S Club',
+                        value: 10000,
+                    },{
+                        name: 'Sam S Club',
+                        value: 10000,
+                    },{
+                        name: 'Sam S Club',
+                        value: 10000,
+                    },{
+                        name: 'Sam S Club',
+                        value: 10000,
+                    },{
+                        name: 'Sam S Club',
+                        value: 10000,
+                    },
+                    
                       {
                           name: 'Sam S Club',
                           value: 10000,
@@ -98,7 +127,7 @@ class Wordcloudl extends React.Component{
   render () {
       return(
           <div>
-              <div id='wordcloudl' style={{left: '1030px', width: '200px', height: '200px',top: '100px'}}></div>
+              <div id='wordcloudl' style={{ height: '300px',top: '40px'}}></div>
           </div>
       )
   }
