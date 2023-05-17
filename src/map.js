@@ -4,19 +4,11 @@ import Legend from './component/Legend';
 import Optionsfield from './component/Optionsfield';
 import './Map.css';
 import data from './data.json';
-import ReactDOM from 'react-dom';
-import Tooltip from './component/tooltip';
-
 import { Col, InputNumber, Row, Slider, Space } from 'antd';
-// const IntegerStep = () => {
-//   const [inputValue, setInputValue] = useState(1);
-//   const onChange = (newValue) => {
-//     setInputValue(newValue);
-//   };
-//   return (
-
-//   );
-// };
+import Wordcloud from './WordCloud'
+import PieChart from './PieChart';
+import { Pie } from '@ant-design/charts';
+// axios
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoieXR0ZW4iLCJhIjoiY2xoMW03bXMzMTRreTNzcWhvMDZjbngxeSJ9.zqejo9sD3BqcxLbnKkB5yg';
@@ -25,35 +17,11 @@ const DemoAreaMap = () => {
   const options = [
     {
       name: 'Population',
-      description: 'Estimated total population',
       property: 'sentiment',
-      stops: [
-        [0, '#f8d5cc'],
-        [1, '#f4bfb6'],
-        [2, '#f1a8a5'],
-        [3, '#ee8f9a'],
-        [4, '#ec739b'],
-        [5, '#dd5ca8'],
-        [6, '#c44cc0'],
-        [7, '#9f43d7'],
-        [100, '#6e40e6']
-      ]
     },
     {
       name: 'GDP',
-      description: 'Estimate total GDP in millions of dollars',
       property: 'sentiment2',
-      stops: [
-        [0, '#f8d5cc'],
-        [1, '#f4bfb6'],
-        [2, '#f1a8a5'],
-        [3, '#ee8f9a'],
-        [4, '#ec739b'],
-        [5, '#dd5ca8'],
-        [6, '#c44cc0'],
-        [7, '#9f43d7'],
-        [100, '#6e40e6']
-      ]
     },
 
   ];
@@ -61,47 +29,70 @@ const DemoAreaMap = () => {
   const [active, setActive] = useState(options[0]);
   const [inputValue, setInputValue] = useState(0);
   const [map, setMap] = useState(null);
-  const tooltipRef = useRef(new mapboxgl.Popup());
+  // const tooltipRef = useRef(new mapboxgl.Popup());
 
   const [show, setShow] = React.useState(false);
-
+  
+  const popup = new mapboxgl.Popup({
+    
+    anchor: 'left',
+    closeButton: false,
+    closeOnClick: false
+    })
   // Initialize map when component mounts
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: 'mapbox://styles/ytten/clh5sjia8009j01rh4co2fzvh',
       center: [134, -25],
-      zoom: 3.5
+      zoom: 3,
+      minZoom: 3,
+      maxZoom: 3,
+      dragPan: false
     });
     // const Tooltip = () => <div>tooltip</div>
+
     
-    map.on('mousemove', (e) => {
+
+    
+    map.on('mousemove','states', (e) => {
       // console.log( mapContainerRef.current)
-      const states = map.queryRenderedFeatures(e.point)
-      
-      var state_name = states['0']['properties']['STATE_NAME']
-      var value = states['0']['properties']['sentiment']
-      console.log(state_name)
+      // const states = map.queryRenderedFeatures(e.point)
+      map.getCanvas().style.cursor = 'pointer';
+      const state_name = e.features['0']['properties']['STATE_NAME']
+      const value = e.features['0']['properties']['sentiment']
+      if (typeof value !== "undefined"){
+          popup
+            .setLngLat(map.getCenter())
+            // .setText(value)
+            // .setText(state_name)
+            .setHTML('<p>Name: ' + state_name + '</p>' +
+            '<p>Sentiment 1: ' + value + '</p>')
+            .addTo(map);
+                }
     });
+
+    map.on('mouseleave','states', () => {
+      map.getCanvas().style.cursor = '';
+      popup.remove();
+      });
 
     map.on('load', () => {
       map.addSource('states', {
         type: 'geojson',
         data
       });
+      
 
       map.setLayoutProperty('state-label', 'text-field', [
         'format',
         ['get', 'name_en'],
         { 'font-scale': 1.2 },
-        '\n',
-        {},
         ['get', 'name'],
         {
           'font-scale': 0.8,
           'text-font': [
             'literal',
-            ['DIN Offc Pro Italic', 'Arial Unicode MS Regular']
           ]
         }
       ]);
@@ -117,7 +108,6 @@ const DemoAreaMap = () => {
 
       map.setPaintProperty('states', 'fill-color', {
         property: active.property,
-        stops: active.stops
       });
 
       setMap(map);
@@ -135,7 +125,6 @@ const DemoAreaMap = () => {
     if (map) {
       map.setPaintProperty('states', 'fill-color', {
         property: active.property,
-        stops: active.stops
       });
     }
   };
@@ -153,6 +142,7 @@ const DemoAreaMap = () => {
   const onChange = (newValue) => {
     setInputValue(newValue);
     setActive(options[newValue-1])
+    
   };
 
   
@@ -175,9 +165,15 @@ const DemoAreaMap = () => {
           max={2}
           onChange={onChange}
           value={typeof inputValue === 'number' ? inputValue : 0}
+          style={{top:'50px', left: '70px', width:'880px'}}
         />
       </Col>
-    </div>
+      <PieChart>
+      </PieChart>
+      <Wordcloud>
+      </Wordcloud>
+      
+      </div>
   );
 };
 

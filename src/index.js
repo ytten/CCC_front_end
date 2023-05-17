@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import DemoWordCloud from './WordCloud';
 import DemoPieChart from './PieChart';
 // import DemoMap from './map';
 import reportWebVitals from './reportWebVitals';
 import DemoAreaMap from './map';
 // import map from './map2'
+import './App.css'
+import Wordcloudl from './WordCloud';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -17,7 +18,11 @@ root.render(
     <DemoPieChart/> */}
     {/* <DemoAreaMap></DemoAreaMap> */}
     <DemoAreaMap></DemoAreaMap>
-    {/* <map></map> */}
+    {/* <div style={{ position: 'fixed', bottom: 0, right: 0 }}> */}
+    {/* <Wordcloudl>
+    </Wordcloudl> */}
+    {/* </div> */}
+    
   </React.StrictMode>
 );
 

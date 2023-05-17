@@ -8,7 +8,7 @@ export default function PieChart() {
     () => ({
       title: {
         text: "Test",
-        subtext: "Fake Data",
+        // subtext: "Fake Data",
         left: "center"
       },
       tooltip: {
@@ -16,13 +16,14 @@ export default function PieChart() {
       },
       legend: {
         orient: "vertical",
-        left: "right"
+        left: 'bottom'
       },
       series: [
         {
           name: "Access From",
           type: "pie",
           radius: "60%",
+          label: null,
           data: [
             { value: 1048, name: "Search Engine" },
             { value: 735, name: "Direct" },
@@ -45,7 +46,7 @@ export default function PieChart() {
 
   return (
     <div className="App">
-      <EChartsReact option={chartOptions} />
+      <EChartsReact option={chartOptions} style={{width:'670px',top: '50px', left: '800px'}}/>
     </div>
   );
 }
