@@ -189,13 +189,10 @@ const DemoAreaMap = () => {
     // setPie(pie_options[newValue - 1])
     setInputValue(newValue);
     setActive(options[newValue - 1])
-  };
+  }; 
 
   return (
-    <div style={{ 
-      backgroundImage: `url(${process.env.PUBLIC_URL + '/bg.png'})` 
-    }}>
-
+    <div className="body" >
       {/* <Legend active={active} stops={active.stops} /> */}
       {/* {/* <Optionsfield
         options={options}
