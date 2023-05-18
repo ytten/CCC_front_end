@@ -13,6 +13,12 @@ mapboxgl.accessToken =
 
 
 const DemoAreaMap = () => {
+  // const pie_options = {
+  //   data:{
+  //     name: 'ALP', 
+  //     value: 'sentiment' 
+  //   }
+  // }
   const options = [
     {
       name: 'ALP',
@@ -55,6 +61,7 @@ const DemoAreaMap = () => {
     }
 
   ];
+  // const [option, setPie] = useState(pie_options[0]);
   const mapContainerRef = useRef(true);
   const [active, setActive] = useState(options[0]);
   const [inputValue, setInputValue] = useState(0);
@@ -171,6 +178,7 @@ const DemoAreaMap = () => {
   const changeState = i => {
     setInputValue(i + 1)
     setActive(options[i]);
+    // setPie(pie_options[i])
     map.setPaintProperty('states', 'fill-color', {
       property: active.property,
       stops: active.stops
@@ -178,18 +186,15 @@ const DemoAreaMap = () => {
   };
 
   const onChange = (newValue) => {
+    // setPie(pie_options[newValue - 1])
     setInputValue(newValue);
     setActive(options[newValue - 1])
-
   };
 
-
-  // map.on('mousemove',  (e) => {
-
-  // });
-
   return (
-    <div>
+    <div style={{ 
+      backgroundImage: `url(${process.env.PUBLIC_URL + '/bg.png'})` 
+    }}>
 
       {/* <Legend active={active} stops={active.stops} /> */}
       {/* {/* <Optionsfield
