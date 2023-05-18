@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import DemoPieChart from './PieChart';
-// import DemoMap from './map';
 import reportWebVitals from './reportWebVitals';
 import DemoAreaMap from './map';
 // import map from './map2'
