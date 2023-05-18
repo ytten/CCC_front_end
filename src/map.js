@@ -11,16 +11,48 @@ import PieChart from './PieChart';// axios
 mapboxgl.accessToken =
   'pk.eyJ1IjoieXR0ZW4iLCJhIjoiY2xoMW03bXMzMTRreTNzcWhvMDZjbngxeSJ9.zqejo9sD3BqcxLbnKkB5yg';
 
+
 const DemoAreaMap = () => {
   const options = [
     {
-      name: 'Population',
+      name: 'ALP',
       property: 'sentiment',
+      stops: [
+        [25, '#f4bfb6'],
+        [40, '#f1a8a5'],
+        [60, '#ee8f9a'],
+        [80, '#ff3800'],
+      ]
     },
     {
-      name: 'GDP',
+      name: 'LPA',
       property: 'sentiment2',
+      stops: [
+        [25, '#babaf8'],
+        [40, '#7c7cf8'],
+        [60, '#385ac9'],
+        [80, '#0000f8'],
+      ]
     },
+    {
+      name:'NPA',
+      property:'sentiment3',
+      stops: [
+        [25, '#babaf8'],
+        [40, '#7c7cf8'],
+        [60, '#385ac9'],
+        [80, '#0000f8'],
+      ]
+    },{
+      name:'AGP',
+    property: 'sentiment4',
+      stops: [
+        [25, '#babaf8'],
+        [40, '#7c7cf8'],
+        [60, '#385ac9'],
+        [80, '#0000f8'],
+      ]
+    }
 
   ];
   const mapContainerRef = useRef(true);
@@ -30,13 +62,13 @@ const DemoAreaMap = () => {
   // const tooltipRef = useRef(new mapboxgl.Popup());
 
   const [show, setShow] = React.useState(false);
-  
+
   const popup = new mapboxgl.Popup({
-    
+
     anchor: 'left',
     closeButton: false,
     closeOnClick: false
-    })
+  })
   // Initialize map when component mounts
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -50,37 +82,44 @@ const DemoAreaMap = () => {
     });
     // const Tooltip = () => <div>tooltip</div>
 
-    
 
-    
-    map.on('mousemove','states', (e) => {
+
+
+    map.on('mousemove', 'states', (e) => {
       // console.log( mapContainerRef.current)
       // const states = map.queryRenderedFeatures(e.point)
       map.getCanvas().style.cursor = 'pointer';
       const state_name = e.features['0']['properties']['STATE_NAME']
-      const value = e.features['0']['properties']['sentiment']
-      if (typeof value !== "undefined"){
-          popup
-            .setLngLat(map.getCenter())
-            // .setText(value)
-            // .setText(state_name)
-            .setHTML('<p>Name: ' + state_name + '</p>' +
-            '<p>Sentiment 1: ' + value + '</p>')
-            .addTo(map);
-                }
+      const ALP = e.features['0']['properties']['sentiment']
+      const LPA = e.features['0']['properties']['sentiment2']
+      const NAP = e.features['0']['properties']['sentiment3']
+      const NGP = e.features['0']['properties']['sentiment4']
+      // && typeof LPA !== "undefined" && typeof NAP !== "undefined" && typeof NGP !== "undefined" 
+      
+      if (typeof ALP !== "undefined" ) {
+        popup
+          .setLngLat(map.getCenter())
+          // .setText(value)
+          // .setText(state_name)
+          .setHTML('<p>Name: ' + state_name + '</p>' +
+            '<p>Sentiment: ' + ALP + '</p>'  )
+            // '<p>Sentiment: ' + LPA + '</p>'+
+            // '<p>Sentiment: ' + NAP + '</p>'+
+            // '<p>Sentiment: ' + NGP + '</p>')
+          .addTo(map);
+      }
     });
 
-    map.on('mouseleave','states', () => {
+    map.on('mouseleave', 'states', () => {
       map.getCanvas().style.cursor = '';
       popup.remove();
-      });
+    });
 
     map.on('load', () => {
       map.addSource('states', {
         type: 'geojson',
         data
       });
-      
 
       map.setLayoutProperty('state-label', 'text-field', [
         'format',
@@ -106,6 +145,7 @@ const DemoAreaMap = () => {
 
       map.setPaintProperty('states', 'fill-color', {
         property: active.property,
+        stops: active.stops
       });
 
       setMap(map);
@@ -123,13 +163,13 @@ const DemoAreaMap = () => {
     if (map) {
       map.setPaintProperty('states', 'fill-color', {
         property: active.property,
+        stops: active.stops
       });
     }
   };
 
   const changeState = i => {
-    console.log(i)
-    setInputValue(i+1)
+    setInputValue(i + 1)
     setActive(options[i]);
     map.setPaintProperty('states', 'fill-color', {
       property: active.property,
@@ -139,45 +179,76 @@ const DemoAreaMap = () => {
 
   const onChange = (newValue) => {
     setInputValue(newValue);
-    setActive(options[newValue-1])
-    
+    setActive(options[newValue - 1])
+
   };
 
-  
+
   // map.on('mousemove',  (e) => {
 
   // });
 
   return (
     <div>
-      <div ref={mapContainerRef} className='map-container' />
+
       {/* <Legend active={active} stops={active.stops} /> */}
-      {/* <Optionsfield
+      {/* {/* <Optionsfield
         options={options}
         property={active.property}
         changeState={changeState}
       /> */}
+
+
       <Row>
-      <Col span={12}>
-        <Slider
-          min={1}
-          max={2}
-          onChange={onChange}
-          value={typeof inputValue === 'number' ? inputValue : 0}
-          
-        />
-      </Col>
+        <Col span={12}>
+          <Row>
+            <Col span={24}>
+              <div ref={mapContainerRef} className='map-container' />
+              <Slider
+                min={1}
+                max={4}
+                onChange={onChange}
+                value={typeof inputValue === 'number' ? inputValue : 0}
+                style={{ top: '670px', width: '500px', left: '117px' }}
+              />
+            </Col>
+          </Row>
+        </Col>
+
+        <Col span={12}>
+          <Row>
+            <Row>
+              <Col span={8}>
+              <PieChart>
+              </PieChart>
+              </Col>
+              <Col span={8}>
+              <PieChart>
+              </PieChart>
+              </Col>
+              <Col span={8}>
+              <PieChart>
+              </PieChart>
+              </Col>
+            </Row>
+              <Row>
+              <Col span={8}>
+              <PieChart>
+              </PieChart>
+              </Col>
+              <Col span={8}>
+              <PieChart>
+              </PieChart>
+              </Col>
+              <Col span={8}>
+              <PieChart>
+              </PieChart>
+              </Col>
+              </Row>
+          </Row>
+        </Col>
       </Row>
-      <Row>
-      <Col span={12}><Wordcloud>
-      </Wordcloud></Col>
-      
-      <Col span={12}><PieChart>
-      </PieChart></Col>
-      </Row>
-      
-      
-      </div>
+    </div>
   );
 };
 

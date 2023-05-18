@@ -8,7 +8,9 @@
       "STATE_CODE": "1",
       "STATE_NAME": "New South Wales",
       "sentiment": 1.2,
-      "sentiment2": 87
+      "sentiment2": 87,
+      "sentiment3": 1.2,
+      "sentiment4": 87
     },
     "geometry": {
       "type": "MultiPolygon",

@@ -46,7 +46,7 @@ export default function PieChart() {
 
   return (
     <div className="App">
-      <EChartsReact option={chartOptions} style={{width:'670px'}}/>
+      <EChartsReact option={chartOptions} style={{width:'250px', top:'40px', right:'50px'}}/>
     </div>
   );
 }
