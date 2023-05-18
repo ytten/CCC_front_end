@@ -6,19 +6,112 @@ import './Map.css';
 import data from './data.json';
 import { Col, InputNumber, Row, Slider, Space } from 'antd';
 import Wordcloud from './WordCloud'
-import PieChart from './PieChart';// axios
+import EChartsReact from "echarts-for-react";
+// import "./styles.css";
+
+
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoieXR0ZW4iLCJhIjoiY2xoMW03bXMzMTRreTNzcWhvMDZjbngxeSJ9.zqejo9sD3BqcxLbnKkB5yg';
 
 
 const DemoAreaMap = () => {
-  // const pie_options = {
-  //   data:{
-  //     name: 'ALP', 
-  //     value: 'sentiment' 
-  //   }
-  // }
+
+  const chartOptions = [{
+    title: {
+      text: "Test",
+      // subtext: "Fake Data",
+      left: "center"
+    },
+    tooltip: {
+      trigger: "item"
+    },
+    series: [
+      {
+        name: "Access From",
+        type: "pie",
+        radius: "60%",
+        label: null,
+        data: [
+          { value: 1048, name: "Search Engine" },
+          { value: 735, name: "Direct" },
+          { value: 580, name: "Email" },
+          { value: 484, name: "Union Ads" },
+          { value: 300, name: "Video Ads" }
+        ],
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: "rgba(0, 0, 0, 0.5)"
+          }
+        }
+      }
+    ]
+  },{
+      title: {
+        text: "Test",
+        // subtext: "Fake Data",
+        left: "center"
+      },
+      tooltip: {
+        trigger: "item"
+      },
+      series: [
+        {
+          name: "Access From",
+          type: "pie",
+          radius: "60%",
+          label: null,
+          data: [
+            { value: 1, name: "Search Engine" },
+            { value: 735, name: "Direct" },
+            { value: 3, name: "Email" },
+            { value: 484, name: "Union Ads" },
+            { value: 300, name: "Video Ads" }
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: "rgba(0, 0, 0, 0.5)"
+            }
+          }
+        }
+      ]
+    },{
+      title: {
+        text: "Test",
+        // subtext: "Fake Data",
+        left: "center"
+      },
+      tooltip: {
+        trigger: "item"
+      },
+      series: [
+        {
+          name: "Access From",
+          type: "pie",
+          radius: "60%",
+          label: null,
+          data: [
+            { value: 1000, name: "Search Engine" },
+            { value: 735, name: "Direct" },
+            { value: 580, name: "Email" },
+            { value: 484, name: "Union Ads" },
+            { value: 4, name: "Video Ads" }
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: "rgba(0, 0, 0, 0.5)"
+            }
+          }
+        }
+      ]
+    },
+  ]
   const options = [
     {
       name: 'ALP',
@@ -66,9 +159,8 @@ const DemoAreaMap = () => {
   const [active, setActive] = useState(options[0]);
   const [inputValue, setInputValue] = useState(0);
   const [map, setMap] = useState(null);
-  // const tooltipRef = useRef(new mapboxgl.Popup());
-
-  const [show, setShow] = React.useState(false);
+  const [pie, setPie] = useState(null)
+  
 
   const popup = new mapboxgl.Popup({
 
@@ -221,30 +313,24 @@ const DemoAreaMap = () => {
           <Row>
             <Row>
               <Col span={8}>
-              <PieChart>
-              </PieChart>
+              <EChartsReact option={chartOptions[0]} style={{width:'250px', top:'40px', right:'50px'}}/>
               </Col>
               <Col span={8}>
-              <PieChart>
-              </PieChart>
+              <EChartsReact option={chartOptions[2]} style={{width:'250px', top:'40px', right:'50px'}}/>
               </Col>
               <Col span={8}>
-              <PieChart>
-              </PieChart>
+              <EChartsReact option={chartOptions[0]} style={{width:'250px', top:'40px', right:'50px'}}/>
               </Col>
             </Row>
               <Row>
               <Col span={8}>
-              <PieChart>
-              </PieChart>
+              <EChartsReact option={chartOptions[1]} style={{width:'250px', top:'40px', right:'50px'}}/>
               </Col>
               <Col span={8}>
-              <PieChart>
-              </PieChart>
+              <EChartsReact option={chartOptions[0]} style={{width:'250px', top:'40px', right:'50px'}}/>
               </Col>
               <Col span={8}>
-              <PieChart>
-              </PieChart>
+              <EChartsReact option={chartOptions[0]} style={{width:'250px', top:'40px', right:'50px'}}/>
               </Col>
               </Row>
           </Row>
