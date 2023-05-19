@@ -1,6 +1,6 @@
 .body {
     background-image: 
-    url('../public/image/bg.png');
+    url('../../public/image/bg.png');
     background-size: "cover";
     height: 120vh;
     margin-top: -70px;

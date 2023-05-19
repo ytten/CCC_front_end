@@ -1,11 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
-import Legend from './component/Legend';
-import Optionsfield from './component/Optionsfield';
-import './pages/Map.css';
-import data from './data.json';
+import Legend from '../component/Legend';
+import Optionsfield from '../component/Optionsfield';
+import './Map.css';
+import data from '../data.json';
 import { Col, InputNumber, Row, Slider, Space } from 'antd';
-import Wordcloud from './WordCloud'
+import Wordcloud from '../WordCloud'
 import EChartsReact from "echarts-for-react";
 // import "./styles.css";
 
@@ -15,7 +15,7 @@ mapboxgl.accessToken =
   'pk.eyJ1IjoieXR0ZW4iLCJhIjoiY2xoMW03bXMzMTRreTNzcWhvMDZjbngxeSJ9.zqejo9sD3BqcxLbnKkB5yg';
 
 
-const DemoAreaMap = () => {
+const KeywordPage = () => {
 
   const chartOptions = [{
     title: {
@@ -334,4 +334,4 @@ const DemoAreaMap = () => {
 };
 
 
-export default DemoAreaMap;
+export default KeywordPage;
