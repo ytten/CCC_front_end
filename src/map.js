@@ -284,7 +284,9 @@ const DemoAreaMap = () => {
   }; 
 
   return (
-    <div className="body" >
+    <div style={{ 
+      backgroundImage: `url(${process.env.PUBLIC_URL + '/bg.png'})` 
+    }}>
       {/* <Legend active={active} stops={active.stops} /> */}
       {/* {/* <Optionsfield
         options={options}

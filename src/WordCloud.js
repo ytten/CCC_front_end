@@ -1,135 +1,337 @@
-import ReactEcharts from 'echarts-for-react';
-import * as echarts from "echarts";
-import "echarts-wordcloud";
-import * as React from 'react'
+import React, { useRef, useEffect, useState } from 'react';
+import mapboxgl from 'mapbox-gl';
+import Legend from './component/Legend';
+import Optionsfield from './component/Optionsfield';
+import './Map.css';
+import data from './data.json';
+import { Col, InputNumber, Row, Slider, Space } from 'antd';
+import Wordcloud from './WordCloud'
+import EChartsReact from "echarts-for-react";
+// import "./styles.css";
 
-class Wordcloudl extends React.Component{
-  componentDidMount() {
-      var myChart = echarts.init(document.getElementById('wordcloudl'));
-      
-      var maskImage = new Image();
-      maskImage.src = 'data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjI1NnB4IiBoZWlnaHQ9IjI1NnB4IiB2aWV3Qm94PSIwIDAgNTQ4LjE3NiA1NDguMTc2IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1NDguMTc2IDU0OC4xNzY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8cGF0aCBkPSJNNTI0LjE4MywyOTcuMDY1Yy0xNS45ODUtMTkuODkzLTM2LjI2NS0zMi42OTEtNjAuODE1LTM4LjM5OWM3LjgxLTExLjk5MywxMS43MDQtMjUuMTI2LDExLjcwNC0zOS4zOTkgICBjMC0yMC4xNzctNy4xMzktMzcuNDAxLTIxLjQwOS01MS42NzhjLTE0LjI3My0xNC4yNzItMzEuNDk4LTIxLjQxMS01MS42NzUtMjEuNDExYy0xOC4yNzEsMC0zNC4wNzEsNS45MDEtNDcuMzksMTcuNzAzICAgYy0xMS4yMjUtMjcuMDI4LTI5LjA3NS00OC45MTctNTMuNTI5LTY1LjY2N2MtMjQuNDYtMTYuNzQ2LTUxLjcyOC0yNS4xMjUtODEuODAyLTI1LjEyNWMtNDAuMzQ5LDAtNzQuODAyLDE0LjI3OS0xMDMuMzUzLDQyLjgzICAgYy0yOC41NTMsMjguNTQ0LTQyLjgyNSw2Mi45OTktNDIuODI1LDEwMy4zNTFjMCwyLjg1NiwwLjE5MSw2Ljk0NSwwLjU3MSwxMi4yNzVjLTIyLjA3OCwxMC4yNzktMzkuODc2LDI1LjgzOC01My4zODksNDYuNjg2ICAgQzYuNzU5LDI5OS4wNjcsMCwzMjIuMDU1LDAsMzQ3LjE4YzAsMzUuMjExLDEyLjUxNyw2NS4zMzMsMzcuNTQ0LDkwLjM1OWMyNS4wMjgsMjUuMDMzLDU1LjE1LDM3LjU0OCw5MC4zNjIsMzcuNTQ4aDMxMC42MzYgICBjMzAuMjU5LDAsNTYuMDk2LTEwLjcxNSw3Ny41MTItMzIuMTIxYzIxLjQxMy0yMS40MTIsMzIuMTIxLTQ3LjI0OSwzMi4xMjEtNzcuNTE1ICAgQzU0OC4xNzIsMzM5Ljc1Nyw1NDAuMTc0LDMxNi45NTIsNTI0LjE4MywyOTcuMDY1eiIgZmlsbD0iI0ZGRkZGRiIvPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=';
 
-      maskImage.onload = function(){
-          myChart.setOption( {
-              backgroundColor:'#fff',
-              tooltip: {
-                  pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-              },
-              series: [{
-                  type: 'wordCloud',
-                          gridSize: 1,
-                          // Text size range which the value in data will be mapped to.
-                          // Default to have minimum 12px and maximum 60px size.
-                          sizeRange: [12, 22],
-                          // Text rotation range and step in degree. Text will be rotated randomly in range [-90,                                                                             90] by rotationStep 45
 
-                          rotationRange: [-45, 0, 45, 90],
-                          maskImage: maskImage,
-                          textStyle: {
-                              normal: {
-                                  color: function() {
-                                      return 'rgb(' +
-                                          Math.round(Math.random() * 255) +
-                                          ', ' + Math.round(Math.random() * 255) +
-                                          ', ' + Math.round(Math.random() * 255) + ')'
-                                  }
-                              }
-                          },
-                          // Folllowing left/top/width/height/right/bottom are used for positioning the word cloud
-                          // Default to be put in the center and has 75% x 80% size.
-                          left: 'center',
-                          top: 'center',
-                          right: null,
-                          bottom: null,
-                          width:'90%',
-                          height:'110%',
-                  data:[
-                    {
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },{
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },{
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },{
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },{
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },{
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },{
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },{
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },{
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },
-                    
-                      {
-                          name: 'Sam S Club',
-                          value: 10000,
-                      }, {
-                          name: 'Macys',
-                          value: 6181
-                      }, {
-                          name: 'Amy Schumer',
-                          value: 4386
-                      }, {
-                          name: 'Jurassic World',
-                          value: 4055
-                      }, {
-                          name: 'Charter Communications',
-                          value: 2467
-                      }, {
-                          name: 'Chick Fil A',
-                          value: 2244
-                      }, {
-                          name: 'Planet Fitness',
-                          value: 1898
-                      }, {
-                          name: 'Pitch Perfect',
-                          value: 1484
-                      }, {
-                          name: 'Express',
-                          value: 1112
-                      }, {
-                          name: 'Home',
-                          value: 965
-                      }, {
-                          name: 'Johnny Depp',
-                          value: 847
-                      }, {
-                          name: 'Lena Dunham',
-                          value: 582
-                      }, {
-                          name: 'Lewis Hamilton',
-                          value: 555
-                      }, {
-                          name: 'KXAN',
-                          value: 550
-                      }, {
-                          name: 'Point Break',
-                          value: 265
-                      }]
-              }]
-          })
+mapboxgl.accessToken =
+  'pk.eyJ1IjoieXR0ZW4iLCJhIjoiY2xoMW03bXMzMTRreTNzcWhvMDZjbngxeSJ9.zqejo9sD3BqcxLbnKkB5yg';
+
+
+const DemoAreaMap = () => {
+
+  const chartOptions = [{
+    title: {
+      text: "Test",
+      // subtext: "Fake Data",
+      left: "center"
+    },
+    tooltip: {
+      trigger: "item"
+    },
+    series: [
+      {
+        name: "Access From",
+        type: "pie",
+        radius: "60%",
+        label: null,
+        data: [
+          { value: 1048, name: "Search Engine" },
+          { value: 735, name: "Direct" },
+          { value: 580, name: "Email" },
+          { value: 484, name: "Union Ads" },
+          { value: 300, name: "Video Ads" }
+        ],
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: "rgba(0, 0, 0, 0.5)"
+          }
+        }
       }
-  }
-  render () {
-      return(
-          <div>
-              <div id='wordcloudl' style={{ height: '300px',top: '40px'}}></div>
-          </div>
-      )
-  }
-}
-export default Wordcloudl;
+    ]
+  },{
+      title: {
+        text: "Test",
+        // subtext: "Fake Data",
+        left: "center"
+      },
+      tooltip: {
+        trigger: "item"
+      },
+      series: [
+        {
+          name: "Access From",
+          type: "pie",
+          radius: "60%",
+          label: null,
+          data: [
+            { value: 1, name: "Search Engine" },
+            { value: 735, name: "Direct" },
+            { value: 3, name: "Email" },
+            { value: 484, name: "Union Ads" },
+            { value: 300, name: "Video Ads" }
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: "rgba(0, 0, 0, 0.5)"
+            }
+          }
+        }
+      ]
+    },{
+      title: {
+        text: "Test",
+        // subtext: "Fake Data",
+        left: "center"
+      },
+      tooltip: {
+        trigger: "item"
+      },
+      series: [
+        {
+          name: "Access From",
+          type: "pie",
+          radius: "60%",
+          label: null,
+          data: [
+            { value: 1000, name: "Search Engine" },
+            { value: 735, name: "Direct" },
+            { value: 580, name: "Email" },
+            { value: 484, name: "Union Ads" },
+            { value: 4, name: "Video Ads" }
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: "rgba(0, 0, 0, 0.5)"
+            }
+          }
+        }
+      ]
+    },
+  ]
+  const options = [
+    {
+      name: 'ALP',
+      property: 'sentiment',
+      stops: [
+        [25, '#f4bfb6'],
+        [40, '#f1a8a5'],
+        [60, '#ee8f9a'],
+        [80, '#ff3800'],
+      ]
+    },
+    {
+      name: 'LPA',
+      property: 'sentiment2',
+      stops: [
+        [25, '#babaf8'],
+        [40, '#7c7cf8'],
+        [60, '#385ac9'],
+        [80, '#0000f8'],
+      ]
+    },
+    {
+      name:'NPA',
+      property:'sentiment3',
+      stops: [
+        [25, '#babaf8'],
+        [40, '#7c7cf8'],
+        [60, '#385ac9'],
+        [80, '#0000f8'],
+      ]
+    },{
+      name:'AGP',
+    property: 'sentiment4',
+      stops: [
+        [25, '#babaf8'],
+        [40, '#7c7cf8'],
+        [60, '#385ac9'],
+        [80, '#0000f8'],
+      ]
+    }
+
+  ];
+  // const [option, setPie] = useState(pie_options[0]);
+  const mapContainerRef = useRef(true);
+  const [active, setActive] = useState(options[0]);
+  const [inputValue, setInputValue] = useState(0);
+  const [map, setMap] = useState(null);
+  const [pie, setPie] = useState(null)
+  
+
+  const popup = new mapboxgl.Popup({
+
+    anchor: 'left',
+    closeButton: false,
+    closeOnClick: false
+  })
+  // Initialize map when component mounts
+  useEffect(() => {
+    const map = new mapboxgl.Map({
+      container: mapContainerRef.current,
+      style: 'mapbox://styles/ytten/clh5sjia8009j01rh4co2fzvh',
+      center: [134, -25],
+      zoom: 3,
+      minZoom: 3,
+      maxZoom: 3,
+      dragPan: false
+    });
+    // const Tooltip = () => <div>tooltip</div>
+
+
+
+
+    map.on('mousemove', 'states', (e) => {
+      // console.log( mapContainerRef.current)
+      // const states = map.queryRenderedFeatures(e.point)
+      map.getCanvas().style.cursor = 'pointer';
+      const state_name = e.features['0']['properties']['STATE_NAME']
+      const ALP = e.features['0']['properties']['sentiment']
+      const LPA = e.features['0']['properties']['sentiment2']
+      const NAP = e.features['0']['properties']['sentiment3']
+      const NGP = e.features['0']['properties']['sentiment4']
+      // && typeof LPA !== "undefined" && typeof NAP !== "undefined" && typeof NGP !== "undefined" 
+      
+      if (typeof ALP !== "undefined" ) {
+        popup
+          .setLngLat(map.getCenter())
+          // .setText(value)
+          // .setText(state_name)
+          .setHTML('<p>Name: ' + state_name + '</p>' +
+            '<p>Sentiment: ' + ALP + '</p>'  )
+            // '<p>Sentiment: ' + LPA + '</p>'+
+            // '<p>Sentiment: ' + NAP + '</p>'+
+            // '<p>Sentiment: ' + NGP + '</p>')
+          .addTo(map);
+      }
+    });
+
+    map.on('mouseleave', 'states', () => {
+      map.getCanvas().style.cursor = '';
+      popup.remove();
+    });
+
+    map.on('load', () => {
+      map.addSource('states', {
+        type: 'geojson',
+        data
+      });
+
+      map.setLayoutProperty('state-label', 'text-field', [
+        'format',
+        ['get', 'name_en'],
+        { 'font-scale': 1.2 },
+        ['get', 'name'],
+        {
+          'font-scale': 0.8,
+          'text-font': [
+            'literal',
+          ]
+        }
+      ]);
+
+      map.addLayer(
+        {
+          id: 'states',
+          type: 'fill',
+          source: 'states'
+        },
+        'state-label'
+      );
+
+      map.setPaintProperty('states', 'fill-color', {
+        property: active.property,
+        stops: active.stops
+      });
+
+      setMap(map);
+    });
+
+    // Clean up on unmount
+    return () => map.remove();
+  }, []);
+
+  useEffect(() => {
+    paint();
+  }, [active]);
+
+  const paint = () => {
+    if (map) {
+      map.setPaintProperty('states', 'fill-color', {
+        property: active.property,
+        stops: active.stops
+      });
+    }
+  };
+
+  const changeState = i => {
+    setInputValue(i + 1)
+    setActive(options[i]);
+    // setPie(pie_options[i])
+    map.setPaintProperty('states', 'fill-color', {
+      property: active.property,
+      stops: active.stops
+    });
+  };
+
+  const onChange = (newValue) => {
+    // setPie(pie_options[newValue - 1])
+    setInputValue(newValue);
+    setActive(options[newValue - 1])
+  };
+
+  return (
+    <div style={{ 
+      backgroundImage: `url(${process.env.PUBLIC_URL + '/bg.png'})` 
+    }}>
+
+    <html>
+      <body>
+        <h1><center>
+          This is Header
+          </center></h1>
+      </body>
+    </html>
+      {/* <Legend active={active} stops={active.stops} /> */}
+      {/* {/* <Optionsfield
+        options={options}
+        property={active.property}
+        changeState={changeState}
+      /> */}
+
+
+      <Row>
+        <Col span={12}>
+          <Row>
+            <Col span={24}>
+              <div ref={mapContainerRef} className='map-container' />
+              <Slider
+                min={1}
+                max={4}
+                onChange={onChange}
+                value={typeof inputValue === 'number' ? inputValue : 0}
+                style={{ top: '670px', width: '500px', left: '117px' }}
+              />
+            </Col>
+          </Row>
+        </Col>
+
+        <Col span={12}>
+          <Row>
+            <Col span={12}>
+              <div>
+                <Wordcloud></Wordcloud>
+              </div>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+
+
+export default DemoAreaMap;
