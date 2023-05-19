@@ -1,122 +1,337 @@
-import * as d3 from 'd3'
+import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
+import Legend from './component/Legend';
+import Optionsfield from './component/Optionsfield';
+import './Map.css';
+import data from './data.json';
+import { Col, InputNumber, Row, Slider, Space } from 'antd';
+import Wordcloud from './WordCloud'
+import EChartsReact from "echarts-for-react";
+// import "./styles.css";
 
-mapboxgl.accessToken = 'pk.eyJ1IjoieXR0ZW4iLCJhIjoiY2xoMW03bXMzMTRreTNzcWhvMDZjbngxeSJ9.zqejo9sD3BqcxLbnKkB5yg';
-const map = new mapboxgl.Map({
-    container: 'map',
-    // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-    style: 'mapbox://styles/mapbox/light-v11',
-    projection: 'winkelTripel',
-    center: [-45, 0],
-    zoom: 0.25
-});
 
-const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-];
 
-function filterBy(month) {
-    const filters = ['==', 'month', month];
-    map.setFilter('earthquake-circles', filters);
-    map.setFilter('earthquake-labels', filters);
+mapboxgl.accessToken =
+  'pk.eyJ1IjoieXR0ZW4iLCJhIjoiY2xoMW03bXMzMTRreTNzcWhvMDZjbngxeSJ9.zqejo9sD3BqcxLbnKkB5yg';
 
-    // Set the label to the month
-    document.getElementById('month').textContent = months[month];
-}
 
-map.on('load', () => {
-    // Data courtesy of http://earthquake.usgs.gov/
-    // Query for significant earthquakes in 2015 URL request looked like this:
-    // http://earthquake.usgs.gov/fdsnws/event/1/query
-    //    ?format=geojson
-    //    &starttime=2015-01-01
-    //    &endtime=2015-12-31
-    //    &minmagnitude=6'
-    //
-    // Here we're using d3 to help us make the ajax request but you can use
-    // Any request method (library or otherwise) you wish.
-    d3.json(
-        'https://docs.mapbox.com/mapbox-gl-js/assets/significant-earthquakes-2015.geojson',
-        jsonCallback
-    );
-});
+const DemoAreaMap = () => {
 
-function jsonCallback(err, data) {
-    if (err) {
-        throw err;
+  const chartOptions = [{
+    title: {
+      text: "Test",
+      // subtext: "Fake Data",
+      left: "center"
+    },
+    tooltip: {
+      trigger: "item"
+    },
+    series: [
+      {
+        name: "Access From",
+        type: "pie",
+        radius: "60%",
+        label: null,
+        data: [
+          { value: 1048, name: "Search Engine" },
+          { value: 735, name: "Direct" },
+          { value: 580, name: "Email" },
+          { value: 484, name: "Union Ads" },
+          { value: 300, name: "Video Ads" }
+        ],
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: "rgba(0, 0, 0, 0.5)"
+          }
+        }
+      }
+    ]
+  },{
+      title: {
+        text: "Test",
+        // subtext: "Fake Data",
+        left: "center"
+      },
+      tooltip: {
+        trigger: "item"
+      },
+      series: [
+        {
+          name: "Access From",
+          type: "pie",
+          radius: "60%",
+          label: null,
+          data: [
+            { value: 1, name: "Search Engine" },
+            { value: 735, name: "Direct" },
+            { value: 3, name: "Email" },
+            { value: 484, name: "Union Ads" },
+            { value: 300, name: "Video Ads" }
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: "rgba(0, 0, 0, 0.5)"
+            }
+          }
+        }
+      ]
+    },{
+      title: {
+        text: "Test",
+        // subtext: "Fake Data",
+        left: "center"
+      },
+      tooltip: {
+        trigger: "item"
+      },
+      series: [
+        {
+          name: "Access From",
+          type: "pie",
+          radius: "60%",
+          label: null,
+          data: [
+            { value: 1000, name: "Search Engine" },
+            { value: 735, name: "Direct" },
+            { value: 580, name: "Email" },
+            { value: 484, name: "Union Ads" },
+            { value: 4, name: "Video Ads" }
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: "rgba(0, 0, 0, 0.5)"
+            }
+          }
+        }
+      ]
+    },
+  ]
+  const options = [
+    {
+      name: 'ALP',
+      property: 'sentiment',
+      stops: [
+        [25, '#f4bfb6'],
+        [40, '#f1a8a5'],
+        [60, '#ee8f9a'],
+        [80, '#ff3800'],
+      ]
+    },
+    {
+      name: 'LPA',
+      property: 'sentiment2',
+      stops: [
+        [25, '#babaf8'],
+        [40, '#7c7cf8'],
+        [60, '#385ac9'],
+        [80, '#0000f8'],
+      ]
+    },
+    {
+      name:'NPA',
+      property:'sentiment3',
+      stops: [
+        [25, '#babaf8'],
+        [40, '#7c7cf8'],
+        [60, '#385ac9'],
+        [80, '#0000f8'],
+      ]
+    },{
+      name:'AGP',
+    property: 'sentiment4',
+      stops: [
+        [25, '#babaf8'],
+        [40, '#7c7cf8'],
+        [60, '#385ac9'],
+        [80, '#0000f8'],
+      ]
     }
 
-    // Create a month property value based on time
-    // used to filter against.
-    data.features = data.features.map((d) => {
-        d.properties.month = new Date(d.properties.time).getMonth();
-        return d;
+  ];
+  // const [option, setPie] = useState(pie_options[0]);
+  const mapContainerRef = useRef(true);
+  const [active, setActive] = useState(options[0]);
+  const [inputValue, setInputValue] = useState(0);
+  const [map, setMap] = useState(null);
+  const [pie, setPie] = useState(null)
+  
+
+  const popup = new mapboxgl.Popup({
+
+    anchor: 'left',
+    closeButton: false,
+    closeOnClick: false
+  })
+  // Initialize map when component mounts
+  useEffect(() => {
+    const map = new mapboxgl.Map({
+      container: mapContainerRef.current,
+      style: 'mapbox://styles/ytten/clh5sjia8009j01rh4co2fzvh',
+      center: [134, -25],
+      zoom: 3,
+      minZoom: 3,
+      maxZoom: 3,
+      dragPan: false
+    });
+    // const Tooltip = () => <div>tooltip</div>
+
+
+
+
+    map.on('mousemove', 'states', (e) => {
+      // console.log( mapContainerRef.current)
+      // const states = map.queryRenderedFeatures(e.point)
+      map.getCanvas().style.cursor = 'pointer';
+      const state_name = e.features['0']['properties']['STATE_NAME']
+      const ALP = e.features['0']['properties']['sentiment']
+      const LPA = e.features['0']['properties']['sentiment2']
+      const NAP = e.features['0']['properties']['sentiment3']
+      const NGP = e.features['0']['properties']['sentiment4']
+      // && typeof LPA !== "undefined" && typeof NAP !== "undefined" && typeof NGP !== "undefined" 
+      
+      if (typeof ALP !== "undefined" ) {
+        popup
+          .setLngLat(map.getCenter())
+          // .setText(value)
+          // .setText(state_name)
+          .setHTML('<p>Name: ' + state_name + '</p>' +
+            '<p>Sentiment: ' + ALP + '</p>'  )
+            // '<p>Sentiment: ' + LPA + '</p>'+
+            // '<p>Sentiment: ' + NAP + '</p>'+
+            // '<p>Sentiment: ' + NGP + '</p>')
+          .addTo(map);
+      }
     });
 
-    map.addSource('earthquakes', {
-        'type': 'geojson',
-        data: data
+    map.on('mouseleave', 'states', () => {
+      map.getCanvas().style.cursor = '';
+      popup.remove();
     });
 
-    map.addLayer({
-        'id': 'earthquake-circles',
-        'type': 'circle',
-        'source': 'earthquakes',
-        'paint': {
-            'circle-color': [
-                'interpolate',
-                ['linear'],
-                ['get', 'mag'],
-                6,
-                '#FCA107',
-                8,
-                '#7F3121'
-            ],
-            'circle-opacity': 0.75,
-            'circle-radius': [
-                'interpolate',
-                ['linear'],
-                ['get', 'mag'],
-                6,
-                20,
-                8,
-                40
-            ]
+    map.on('load', () => {
+      map.addSource('states', {
+        type: 'geojson',
+        data
+      });
+
+      map.setLayoutProperty('state-label', 'text-field', [
+        'format',
+        ['get', 'name_en'],
+        { 'font-scale': 1.2 },
+        ['get', 'name'],
+        {
+          'font-scale': 0.8,
+          'text-font': [
+            'literal',
+          ]
         }
-    });
+      ]);
 
-    map.addLayer({
-        'id': 'earthquake-labels',
-        'type': 'symbol',
-        'source': 'earthquakes',
-        'layout': {
-            'text-field': ['concat', ['to-string', ['get', 'mag']], 'm'],
-            'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
-            'text-size': 12
+      map.addLayer(
+        {
+          id: 'states',
+          type: 'fill',
+          source: 'states'
         },
-        'paint': {
-            'text-color': 'rgba(0,0,0,0.5)'
-        }
+        'state-label'
+      );
+
+      map.setPaintProperty('states', 'fill-color', {
+        property: active.property,
+        stops: active.stops
+      });
+
+      setMap(map);
     });
 
-    // Set filter to first month of the year
-    // 0 = January
-    filterBy(0);
+    // Clean up on unmount
+    return () => map.remove();
+  }, []);
 
-    document.getElementById('slider').addEventListener('input', (e) => {
-        const month = parseInt(e.target.value, 10);
-        filterBy(month);
+  useEffect(() => {
+    paint();
+  }, [active]);
+
+  const paint = () => {
+    if (map) {
+      map.setPaintProperty('states', 'fill-color', {
+        property: active.property,
+        stops: active.stops
+      });
+    }
+  };
+
+  const changeState = i => {
+    setInputValue(i + 1)
+    setActive(options[i]);
+    // setPie(pie_options[i])
+    map.setPaintProperty('states', 'fill-color', {
+      property: active.property,
+      stops: active.stops
     });
-}
+  };
 
+  const onChange = (newValue) => {
+    // setPie(pie_options[newValue - 1])
+    setInputValue(newValue);
+    setActive(options[newValue - 1])
+  };
+
+  return (
+    <div style={{ 
+      backgroundImage: `url(${process.env.PUBLIC_URL + '/bg.png'})` 
+    }}>
+
+    <html>
+      <body>
+        <h1><center>
+          This is Header
+          </center></h1>
+      </body>
+    </html>
+      {/* <Legend active={active} stops={active.stops} /> */}
+      {/* {/* <Optionsfield
+        options={options}
+        property={active.property}
+        changeState={changeState}
+      /> */}
+
+
+      <Row>
+        <Col span={12}>
+          <Row>
+            <Col span={24}>
+              <div ref={mapContainerRef} className='map-container' />
+              <Slider
+                min={1}
+                max={4}
+                onChange={onChange}
+                value={typeof inputValue === 'number' ? inputValue : 0}
+                style={{ top: '670px', width: '500px', left: '117px' }}
+              />
+            </Col>
+          </Row>
+        </Col>
+
+        <Col span={12}>
+          <Row>
+            <Col span={12}>
+              <div>
+                <Wordcloud></Wordcloud>
+              </div>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+
+
+export default DemoAreaMap;
