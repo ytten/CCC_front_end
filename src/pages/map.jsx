@@ -355,7 +355,7 @@ const ProfilePage = () => {
         </Card>
         <Card title='Map'
       style={{ top: '100px',  left: '50px', height:'600px'	}}>
-        <Legend active={active} stops={active.stops} style={{height: '200px', width: '50px', left:'50px'}}/>
+        <Legend active={active} stops={active.stops} style={{height: '200px', width: '50px', left:'0px', top:'40px'}}/>
         </Card>
         <Col span={12}>
           <Row>
@@ -363,24 +363,24 @@ const ProfilePage = () => {
           style={{ top:"100px", left: '50px', height: '600px'}}>
             <Row>
               <Col span={8}>
-                <EChartsReact option={chartOptions[0]} style={{width:'250px', height:'250px'}}/>
+                <EChartsReact option={chartOptions[0]} style={{width:'250px', height:'250px', bottom: '40px'}}/>
               </Col>
               <Col span={8}>
-              <EChartsReact option={chartOptions[2]} style={{width:'250px',  height:'250px'}}/>
+              <EChartsReact option={chartOptions[2]} style={{width:'250px',  height:'250px', bottom: '40px'}}/>
               </Col>
               <Col span={8}>
-              <EChartsReact option={chartOptions[0]} style={{width:'250px',  height:'250px'}}/>
+              <EChartsReact option={chartOptions[0]} style={{width:'250px',  height:'250px', bottom: '40px'}}/>
               </Col>
             </Row>
               <Row>
               <Col span={8}>
-              <EChartsReact option={chartOptions[1]} style={{width:'250px',  height:'250px'}}/>
+              <EChartsReact option={chartOptions[1]} style={{width:'250px',  height:'250px', bottom: '40px'}}/>
               </Col>
               <Col span={8}>
-              <EChartsReact option={chartOptions[0]} style={{width:'250px',   height:'250px'}}/>
+              <EChartsReact option={chartOptions[0]} style={{width:'250px',   height:'250px', bottom: '40px'}}/>
               </Col>
               <Col span={8}>
-              <BarChart />
+              <BarChart style={{ bottom: '40px'}}/>
               </Col>
               </Row>
               </Card>

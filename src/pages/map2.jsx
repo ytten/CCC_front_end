@@ -338,11 +338,14 @@ const KeywordPage = () => {
           
         </Col>
         </Card>
-
+        <Card title='Map'
+      style={{ top: '30px',  left: '50px', height:'600px'	}}>
+        <Legend active={active} stops={active.stops} style={{height: '200px', width: '50px', left:'0px', top:'40px'}}/>
+        </Card>
         <Col span={12}>
           <Row>
           <Card title='Map'
-          style={{ top: '30px', height:'600px', left: '100px', width:'800px' }}>
+          style={{ top: '30px', height:'600px', left:'50px', width:'800px' }}>
             <Col span={12}>
                 <Wordcloud></Wordcloud>
             </Col>

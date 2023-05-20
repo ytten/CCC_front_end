@@ -11,7 +11,7 @@ const Legend = () => {
   return (
     <div className="legend">
       {legendItems.map((item, index) => (
-        <div key={index} className="legend-item" style={{top:'200px'}}>
+        <div key={index} className="legend-item">
           <div className="color-box" style={{ backgroundColor: item.color, height: '5px'}}></div>
           <span className="label">{item.label}</span>
         </div>
