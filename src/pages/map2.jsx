@@ -216,37 +216,42 @@ const KeywordPage = () => {
     });
 
     map.on('load', () => {
+      const Layers = map.getStyle().layers
+      console.log(Layers)
       map.addSource('states', {
         type: 'geojson',
         data
       });
 
-      map.setLayoutProperty('state-label', 'text-field', [
-        'format',
-        ['get', 'name_en'],
-        { 'font-scale': 1.2 },
-        ['get', 'name'],
-        {
-          'font-scale': 0.8,
-          'text-font': [
-            'literal',
-          ]
-        }
-      ]);
-
       map.addLayer(
         {
           id: 'states',
           type: 'fill',
-          source: 'states'
+          source: 'states',
+          paint: [
+            "interpolate",
+            ["linear"],
+            ["get", "1"],
+            2,
+            "hsl(0, 66%, 85%)",
+            43,
+            "hsl(0, 93%, 60%)"
+          ]
         },
         'state-label'
       );
 
-      map.setPaintProperty('states', 'fill-color', {
-        property: active.property,
-        stops: active.stops
-      });
+      map.setPaintProperty('states', 'fill-color',
+      [
+        "interpolate",
+        ["linear"],
+        ["get", "1"],
+        2,
+        "hsl(0, 66%, 85%)",
+        43,
+        "hsl(0, 93%, 60%)"
+      ]
+    );
 
       setMap(map);
     });
@@ -261,10 +266,17 @@ const KeywordPage = () => {
 
   const paint = () => {
     if (map) {
-      map.setPaintProperty('states', 'fill-color', {
-        property: active.property,
-        stops: active.stops
-      });
+      map.setPaintProperty('states', 'fill-color',
+      [
+        "interpolate",
+        ["linear"],
+        ["get", "1"],
+        2,
+        "hsl(0, 66%, 85%)",
+        43,
+        "hsl(0, 93%, 60%)"
+      ]
+    );
     }
   };
 
@@ -272,22 +284,27 @@ const KeywordPage = () => {
     setInputValue(i + 1)
     setActive(options[i]);
     // setPie(pie_options[i])
-    map.setPaintProperty('states', 'fill-color', {
-      property: active.property,
-      stops: active.stops
-    });
+    map.setPaintProperty('states', 'fill-color',
+    [
+      "interpolate",
+      ["linear"],
+      ["get", "1"],
+      2,
+      "hsl(0, 66%, 85%)",
+      43,
+      "hsl(0, 93%, 60%)"
+    ]
+    );
   };
 
   const onChange = (newValue) => {
     // setPie(pie_options[newValue - 1])
     setInputValue(newValue);
     setActive(options[newValue - 1])
-  };
+  }; 
 
   return (
-    <div style={{ 
-      backgroundImage: `url(${process.env.PUBLIC_URL + '/bg.png'})` 
-    }}>
+    <div>
 
     {/* <html>
       <body> */}
@@ -301,7 +318,7 @@ const KeywordPage = () => {
       /> */}
 
 
-<Row>
+    <Row>
       <Card title='Map'
       style={{ top: '30px',  left: '50px', height:'600px' }}>
         <Col span={12}>
@@ -327,9 +344,7 @@ const KeywordPage = () => {
           <Card title='Map'
           style={{ top: '30px', height:'600px', left: '100px', width:'800px' }}>
             <Col span={12}>
-              <div>
                 <Wordcloud></Wordcloud>
-              </div>
             </Col>
             </Card>
           </Row>

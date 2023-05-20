@@ -33,7 +33,7 @@ class Wordcloudl extends React.Component{
                           sizeRange: [12, 22],
                           // Text rotation range and step in degree. Text will be rotated randomly in range [-90,                                                                             90] by rotationStep 45
 
-                          rotationRange: [-45, 0, 45, 90],
+                          rotationRange: [0, 0, 0, 90],
                           maskImage: maskImage,
                           textStyle: {
                               normal: {
@@ -48,11 +48,11 @@ class Wordcloudl extends React.Component{
                           // Folllowing left/top/width/height/right/bottom are used for positioning the word cloud
                           // Default to be put in the center and has 75% x 80% size.
                           left: 'center',
-                          top: 'center',
+                          top: '-10%',
                           right: null,
                           bottom: null,
                           width:'90%',
-                          height:'110%',
+                        //   height:'0%',
                   data:[
                     {
                         name: 'Sam S Club',

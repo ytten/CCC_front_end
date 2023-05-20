@@ -7,6 +7,7 @@ import data from '../data.json';
 import { Col, InputNumber, Row, Slider, Space, Card} from 'antd';
 import Wordcloud from '../component/WordCloud'
 import EChartsReact from "echarts-for-react";
+import BarChart from '../component/barChart';
 // import "./styles.css";
 
 
@@ -177,7 +178,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
-      style: 'mapbox://styles/ytten/clhujlbwd006601pvecwh9d76',
+      style: 'mapbox://styles/ytten/clhvk84l100fl01rf7a5y52vb',
       center: [134, -25],
       zoom: 3,
       minZoom: 3,
@@ -250,7 +251,7 @@ const ProfilePage = () => {
             "interpolate",
             ["linear"],
             ["get", "2"],
-            3,
+            1,
             "hsl(211, 86%, 79%)",
             99,
             "hsl(208, 81%, 60%)"
@@ -259,10 +260,17 @@ const ProfilePage = () => {
         'state-label'
       );
 
-      map.setPaintProperty('states', 'fill-color', {
-        property: active.property,
-        stops: active.stops
-      });
+      map.setPaintProperty('states', 'fill-color',
+      [
+        'interpolate',
+        ['linear'],
+        ['get', 'your-data-property'], // Replace with the actual property name from your data
+        1,
+        'hsl(211, 86%, 79%)',
+        99,
+        'hsl(208, 81%, 60%)'
+      ]
+    );
 
       setMap(map);
     });
@@ -277,10 +285,17 @@ const ProfilePage = () => {
 
   const paint = () => {
     if (map) {
-      map.setPaintProperty('states', 'fill-color', {
-        property: active.property,
-        stops: active.stops
-      });
+      map.setPaintProperty('states', 'fill-color',
+      [
+        'interpolate',
+        ['linear'],
+        ['get', 'your-data-property'], // Replace with the actual property name from your data
+        1,
+        'hsl(211, 86%, 79%)',
+        99,
+        'hsl(208, 81%, 60%)'
+      ]
+    );
     }
   };
 
@@ -288,10 +303,17 @@ const ProfilePage = () => {
     setInputValue(i + 1)
     setActive(options[i]);
     // setPie(pie_options[i])
-    map.setPaintProperty('states', 'fill-color', {
-      property: active.property,
-      stops: active.stops
-    });
+    map.setPaintProperty('states', 'fill-color',
+      [
+        'interpolate',
+        ['linear'],
+        ['get', 'your-data-property'], // Replace with the actual property name from your data
+        1,
+        'hsl(211, 86%, 79%)',
+        99,
+        'hsl(208, 81%, 60%)'
+      ]
+    );
   };
 
   const onChange = (newValue) => {
@@ -302,17 +324,16 @@ const ProfilePage = () => {
 
   return (
     <div className="body">
-      {/* <Legend active={active} stops={active.stops} /> */}
+      
       {/* {/* <Optionsfield
         options={options}
         property={active.property}
         changeState={changeState}
       /> */}
 
-
       <Row>
       <Card title='Map'
-      style={{ top: '100px',  left: '50px', height:'600px' }}>
+      style={{ top: '100px',  left: '50px', height:'600px'	}}>
         <Col span={12}>
           
           <Row>
@@ -325,20 +346,23 @@ const ProfilePage = () => {
                 value={typeof inputValue === 'number' ? inputValue : 0}
                 style={{width: '500px'}}
               />
+              
             </Col>
           </Row>
           
+          
         </Col>
         </Card>
-
-
+        <Card title='Map'
+      style={{ top: '100px',  left: '50px', height:'600px'	}}>
+        <Legend active={active} stops={active.stops} style={{height: '200px', width: '50px', left:'50px'}}/>
+        </Card>
         <Col span={12}>
           <Row>
           <Card title='Charts'
-          style={{ top:"100px", left: '100px'}}>
+          style={{ top:"100px", left: '50px', height: '600px'}}>
             <Row>
               <Col span={8}>
-              
                 <EChartsReact option={chartOptions[0]} style={{width:'250px', height:'250px'}}/>
               </Col>
               <Col span={8}>
@@ -356,7 +380,7 @@ const ProfilePage = () => {
               <EChartsReact option={chartOptions[0]} style={{width:'250px',   height:'250px'}}/>
               </Col>
               <Col span={8}>
-              <EChartsReact option={chartOptions[0]} style={{width:'250px',  height:'250px'}}/>
+              <BarChart />
               </Col>
               </Row>
               </Card>
