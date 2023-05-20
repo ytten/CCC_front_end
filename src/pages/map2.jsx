@@ -4,8 +4,8 @@ import Legend from '../component/Legend';
 import Optionsfield from '../component/Optionsfield';
 import './Map.css';
 import data from '../data.json';
-import { Col, InputNumber, Row, Slider, Space } from 'antd';
-import Wordcloud from '../WordCloud'
+import { Col, InputNumber, Row, Slider, Space, Card } from 'antd';
+import Wordcloud from '../component/WordCloud'
 import EChartsReact from "echarts-for-react";
 // import "./styles.css";
 
@@ -172,12 +172,13 @@ const KeywordPage = () => {
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
-      style: 'mapbox://styles/ytten/clh5sjia8009j01rh4co2fzvh',
+      style: 'mapbox://styles/ytten/clhujlbwd006601pvecwh9d76',
       center: [134, -25],
       zoom: 3,
       minZoom: 3,
       maxZoom: 3,
-      dragPan: false
+      dragPan: false,
+      attributionControl: false
     });
     // const Tooltip = () => <div>tooltip</div>
 
@@ -290,9 +291,6 @@ const KeywordPage = () => {
 
     {/* <html>
       <body> */}
-        <h1><center>
-          This is Header
-          </center></h1>
       {/* </body>
     </html> */}
       {/* <Legend active={active} stops={active.stops} /> */}
@@ -303,8 +301,11 @@ const KeywordPage = () => {
       /> */}
 
 
-      <Row>
+<Row>
+      <Card title='Map'
+      style={{ top: '30px',  left: '50px', height:'600px' }}>
         <Col span={12}>
+          
           <Row>
             <Col span={24}>
               <div ref={mapContainerRef} className='map-container' />
@@ -313,19 +314,24 @@ const KeywordPage = () => {
                 max={4}
                 onChange={onChange}
                 value={typeof inputValue === 'number' ? inputValue : 0}
-                style={{ top: '670px', width: '500px', left: '117px' }}
+                style={{width: '500px'}}
               />
             </Col>
           </Row>
+          
         </Col>
+        </Card>
 
         <Col span={12}>
           <Row>
+          <Card title='Map'
+          style={{ top: '30px', height:'600px', left: '100px', width:'800px' }}>
             <Col span={12}>
               <div>
                 <Wordcloud></Wordcloud>
               </div>
             </Col>
+            </Card>
           </Row>
         </Col>
       </Row>

@@ -11,7 +11,6 @@ class Wordcloudl extends React.Component{
             { id: 1, text: 'Sam S Club is in this tweet' },
             { id: 2, text: 'Point Break' },
             { id: 3, text: 'Lena Dunham' },
-            { id: 4, text: 'Macys'},
         ],
       };
     componentDidMount() {
@@ -190,7 +189,7 @@ class Wordcloudl extends React.Component{
     
       return(
           <div>
-              <div id='wordcloudl' style={{ height: '300px',top: '40px'}} onClick={this.handleWordClick}> </div>
+              <div id='wordcloudl' style={{ height: '250px',top: '40px', width: '600px'}} onClick={this.handleWordClick}> </div>
               <div>
                 <h3>Selected Word: {selectedWord}</h3>
                 <h3>Tweets for {selectedWord}</h3>
