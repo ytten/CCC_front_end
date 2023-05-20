@@ -4,7 +4,7 @@ import Legend from '../component/Legend';
 import Optionsfield from '../component/Optionsfield';
 import './Map.css';
 import data from '../data.json';
-import { Col, InputNumber, Row, Slider, Space, Card} from 'antd';
+import { Col, InputNumber, Row, Slider, Space, Card, Layout} from 'antd';
 import Wordcloud from '../component/WordCloud'
 import EChartsReact from "echarts-for-react";
 import BarChart from '../component/barChart';
@@ -323,6 +323,7 @@ const ProfilePage = () => {
   }; 
 
   return (
+
     <div className="body">
       
       {/* {/* <Optionsfield
@@ -330,7 +331,7 @@ const ProfilePage = () => {
         property={active.property}
         changeState={changeState}
       /> */}
-
+          
       <Row>
       <Card title='Map'
       style={{ top: '100px',  left: '50px', height:'600px'	}}>
@@ -387,6 +388,7 @@ const ProfilePage = () => {
           </Row>
         </Col>
       </Row>
+      
     </div>
   );
 };

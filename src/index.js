@@ -17,8 +17,8 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LayoutPage />}>
-          <Route index element={< KeywordPage />} />
-          <Route path="Keyword" element={<ProfilePage />} />    
+          <Route index element={< ProfilePage />} />
+          <Route path="Keyword" element={<KeywordPage />} />    
         </Route>
       </Routes>
     </BrowserRouter>
@@ -29,11 +29,10 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     
-    <Layout>
+
     <Content>
       <App />
     </Content>
-    </Layout>
      
   </React.StrictMode>
 );
