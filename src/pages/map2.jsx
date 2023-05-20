@@ -17,6 +17,17 @@ mapboxgl.accessToken =
 
 const KeywordPage = () => {
 
+  const [data, setData] = useState([]); 
+  useEffect(() => { asyncFetch(); }, []); 
+  const asyncFetch = () => { 
+    fetch('http://localhost:8080/api/twitter/v1/05b5aa1e0d84a8d6156f9d038ec9ea12')
+    .then((response) => response.json())
+    .then((json) => setData(json))
+    .catch((error) => {
+       console.log('fetch data failed', error);
+      }); 
+    };
+  console.log('data:', data)
   const chartOptions = [{
     title: {
       text: "Test",
@@ -48,69 +59,69 @@ const KeywordPage = () => {
         }
       }
     ]
-  },{
-      title: {
-        text: "Test",
-        // subtext: "Fake Data",
-        left: "center"
-      },
-      tooltip: {
-        trigger: "item"
-      },
-      series: [
-        {
-          name: "Access From",
-          type: "pie",
-          radius: "60%",
-          label: null,
-          data: [
-            { value: 1, name: "Search Engine" },
-            { value: 735, name: "Direct" },
-            { value: 3, name: "Email" },
-            { value: 484, name: "Union Ads" },
-            { value: 300, name: "Video Ads" }
-          ],
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: "rgba(0, 0, 0, 0.5)"
-            }
-          }
-        }
-      ]
-    },{
-      title: {
-        text: "Test",
-        // subtext: "Fake Data",
-        left: "center"
-      },
-      tooltip: {
-        trigger: "item"
-      },
-      series: [
-        {
-          name: "Access From",
-          type: "pie",
-          radius: "60%",
-          label: null,
-          data: [
-            { value: 1000, name: "Search Engine" },
-            { value: 735, name: "Direct" },
-            { value: 580, name: "Email" },
-            { value: 484, name: "Union Ads" },
-            { value: 4, name: "Video Ads" }
-          ],
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: "rgba(0, 0, 0, 0.5)"
-            }
-          }
-        }
-      ]
+  }, {
+    title: {
+      text: "Test",
+      // subtext: "Fake Data",
+      left: "center"
     },
+    tooltip: {
+      trigger: "item"
+    },
+    series: [
+      {
+        name: "Access From",
+        type: "pie",
+        radius: "60%",
+        label: null,
+        data: [
+          { value: 1, name: "Search Engine" },
+          { value: 735, name: "Direct" },
+          { value: 3, name: "Email" },
+          { value: 484, name: "Union Ads" },
+          { value: 300, name: "Video Ads" }
+        ],
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: "rgba(0, 0, 0, 0.5)"
+          }
+        }
+      }
+    ]
+  }, {
+    title: {
+      text: "Test",
+      // subtext: "Fake Data",
+      left: "center"
+    },
+    tooltip: {
+      trigger: "item"
+    },
+    series: [
+      {
+        name: "Access From",
+        type: "pie",
+        radius: "60%",
+        label: null,
+        data: [
+          { value: 1000, name: "Search Engine" },
+          { value: 735, name: "Direct" },
+          { value: 580, name: "Email" },
+          { value: 484, name: "Union Ads" },
+          { value: 4, name: "Video Ads" }
+        ],
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: "rgba(0, 0, 0, 0.5)"
+          }
+        }
+      }
+    ]
+  },
   ]
   const options = [
     {
@@ -134,17 +145,17 @@ const KeywordPage = () => {
       ]
     },
     {
-      name:'NPA',
-      property:'sentiment3',
+      name: 'NPA',
+      property: 'sentiment3',
       stops: [
         [25, '#babaf8'],
         [40, '#7c7cf8'],
         [60, '#385ac9'],
         [80, '#0000f8'],
       ]
-    },{
-      name:'AGP',
-    property: 'sentiment4',
+    }, {
+      name: 'AGP',
+      property: 'sentiment4',
       stops: [
         [25, '#babaf8'],
         [40, '#7c7cf8'],
@@ -160,7 +171,7 @@ const KeywordPage = () => {
   const [inputValue, setInputValue] = useState(0);
   const [map, setMap] = useState(null);
   const [pie, setPie] = useState(null)
-  
+
 
   const popup = new mapboxgl.Popup({
 
@@ -195,17 +206,17 @@ const KeywordPage = () => {
       const NAP = e.features['0']['properties']['sentiment3']
       const NGP = e.features['0']['properties']['sentiment4']
       // && typeof LPA !== "undefined" && typeof NAP !== "undefined" && typeof NGP !== "undefined" 
-      
-      if (typeof ALP !== "undefined" ) {
+
+      if (typeof ALP !== "undefined") {
         popup
           .setLngLat(map.getCenter())
           // .setText(value)
           // .setText(state_name)
           .setHTML('<p>Name: ' + state_name + '</p>' +
-            '<p>Sentiment: ' + ALP + '</p>'  )
-            // '<p>Sentiment: ' + LPA + '</p>'+
-            // '<p>Sentiment: ' + NAP + '</p>'+
-            // '<p>Sentiment: ' + NGP + '</p>')
+            '<p>Sentiment: ' + ALP + '</p>')
+          // '<p>Sentiment: ' + LPA + '</p>'+
+          // '<p>Sentiment: ' + NAP + '</p>'+
+          // '<p>Sentiment: ' + NGP + '</p>')
           .addTo(map);
       }
     });
@@ -285,11 +296,9 @@ const KeywordPage = () => {
   };
 
   return (
-    <div style={{ 
-      backgroundImage: `url(${process.env.PUBLIC_URL + '/bg.png'})` 
-    }}>
+    <div>
 
-    {/* <html>
+      {/* <html>
       <body> */}
       {/* </body>
     </html> */}
@@ -301,36 +310,34 @@ const KeywordPage = () => {
       /> */}
 
 
-<Row>
-      <Card title='Map'
-      style={{ top: '30px',  left: '50px', height:'600px' }}>
-        <Col span={12}>
-          
-          <Row>
-            <Col span={24}>
-              <div ref={mapContainerRef} className='map-container' />
-              <Slider
-                min={1}
-                max={4}
-                onChange={onChange}
-                value={typeof inputValue === 'number' ? inputValue : 0}
-                style={{width: '500px'}}
-              />
-            </Col>
-          </Row>
-          
-        </Col>
+      <Row>
+        <Card title='Map'
+          style={{ top: '30px', left: '50px', height: '600px' }}>
+          <Col span={12}>
+
+            <Row>
+              <Col span={24}>
+                <div ref={mapContainerRef} className='map-container' />
+                <Slider
+                  min={1}
+                  max={4}
+                  onChange={onChange}
+                  value={typeof inputValue === 'number' ? inputValue : 0}
+                  style={{ width: '500px' }}
+                />
+              </Col>
+            </Row>
+
+          </Col>
         </Card>
 
         <Col span={12}>
           <Row>
-          <Card title='Map'
-          style={{ top: '30px', height:'600px', left: '100px', width:'800px' }}>
-            <Col span={12}>
-              <div>
+            <Card title='Word Cloud'
+              style={{ top: '30px', height: '600px', left: '100px', width: '800px' }}>
+              <Col span={12}>
                 <Wordcloud></Wordcloud>
-              </div>
-            </Col>
+              </Col>
             </Card>
           </Row>
         </Col>

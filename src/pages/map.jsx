@@ -335,10 +335,9 @@ const ProfilePage = () => {
         <Col span={12}>
           <Row>
           <Card title='Charts'
-          style={{ top:"100px", left: '100px'}}>
+          style={{ top:"100px", left: '100px', height: '600px'}}>
             <Row>
               <Col span={8}>
-              
                 <EChartsReact option={chartOptions[0]} style={{width:'250px', height:'250px'}}/>
               </Col>
               <Col span={8}>

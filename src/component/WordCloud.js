@@ -33,7 +33,7 @@ class Wordcloudl extends React.Component{
                           sizeRange: [12, 22],
                           // Text rotation range and step in degree. Text will be rotated randomly in range [-90,                                                                             90] by rotationStep 45
 
-                          rotationRange: [-45, 0, 45, 90],
+                          rotationRange: [0, 5],
                           maskImage: maskImage,
                           textStyle: {
                               normal: {
@@ -48,7 +48,7 @@ class Wordcloudl extends React.Component{
                           // Folllowing left/top/width/height/right/bottom are used for positioning the word cloud
                           // Default to be put in the center and has 75% x 80% size.
                           left: 'center',
-                          top: 'center',
+                          top: '-20%',
                           right: null,
                           bottom: null,
                           width:'90%',
@@ -135,10 +135,13 @@ class Wordcloudl extends React.Component{
       myChart.getZr().on('click', (event) => {
 
         const selectedWord = event.target.style.text;
-        console.log('Clicked Word:', selectedWord);
-        
+        console.log('selectedWord:', selectedWord);
+        // if (typeof selectedWord  === "undefined"){
+        //     selectedWord = 'select words in the cloud'
+        // }
         this.setState({selectedWord})
-        // this.handleWordClick(selectedWord);
+
+       
         
 
     });
@@ -166,6 +169,7 @@ class Wordcloudl extends React.Component{
     rendertweet() {
         // update sample tweet to associated tweet
         const {sampletweet} = this.state;
+        
 
         if (sampletweet === []){
             return <p>No associated tweet, pick another word!</p>
