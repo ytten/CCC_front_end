@@ -1,21 +1,26 @@
 import React from "react";
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import { BrowserRouter, Route, Link, Navigate } from "react-router-dom";
+import { Layout, Menu } from 'antd'
+import { useNavigate } from 'react-router-dom'
+const { Header } = Layout;
 
 function Navbar() {
+  const navigate = useNavigate()
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link to="/">Profile</Link>
-        </li>
-        <li>
-          <Link to="/Keyword">Keyword Analysis</Link>
-        </li>
-        <li>
-          <Link to="/">Keyword Analysis</Link>
-        </li>
-      </ul>
-    </nav>
+    // <nav>
+      <Header>
+          <Menu
+          theme='dark'
+          mode="horizontal"
+          style={{ height: '100%', borderRight: 0 }}>
+            <Menu.Item key="/" onClick={() => {navigate("/")}}>
+              Profile
+            </Menu.Item>
+        <Menu.Item key="/Keyword" onClick={() => { navigate("/Keyword", { replace: true }) }}>
+              Keyword Anaylsis
+            </Menu.Item>
+          </Menu>
+      </Header>
   );
 }
 

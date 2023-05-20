@@ -4,7 +4,7 @@ import Legend from '../component/Legend';
 import Optionsfield from '../component/Optionsfield';
 import './Map.css';
 import data from '../data.json';
-import { Col, InputNumber, Row, Slider, Space } from 'antd';
+import { Col, InputNumber, Row, Slider, Space, Card} from 'antd';
 import Wordcloud from '../WordCloud'
 import EChartsReact from "echarts-for-react";
 // import "./styles.css";
@@ -17,11 +17,13 @@ mapboxgl.accessToken =
 
 const ProfilePage = () => {
 
+
   const chartOptions = [{
     title: {
       text: "Test",
       // subtext: "Fake Data",
-      left: "center"
+      left: "center",
+      top: "bottom"
     },
     tooltip: {
       trigger: "item"
@@ -52,7 +54,9 @@ const ProfilePage = () => {
       title: {
         text: "Test",
         // subtext: "Fake Data",
-        left: "center"
+        left: "center",
+        top: "bottom"
+
       },
       tooltip: {
         trigger: "item"
@@ -83,7 +87,8 @@ const ProfilePage = () => {
       title: {
         text: "Test",
         // subtext: "Fake Data",
-        left: "center"
+        left: "center",
+        top: "bottom"
       },
       tooltip: {
         trigger: "item"
@@ -172,12 +177,13 @@ const ProfilePage = () => {
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
-      style: 'mapbox://styles/ytten/clh5sjia8009j01rh4co2fzvh',
+      style: 'mapbox://styles/ytten/clhujlbwd006601pvecwh9d76',
       center: [134, -25],
       zoom: 3,
       minZoom: 3,
       maxZoom: 3,
-      dragPan: false
+      dragPan: false,
+      attributionControl: false
     });
     // const Tooltip = () => <div>tooltip</div>
 
@@ -215,6 +221,8 @@ const ProfilePage = () => {
     });
 
     map.on('load', () => {
+      const Layers = map.getStyle().layers
+      console.log(Layers)
       map.addSource('states', {
         type: 'geojson',
         data
@@ -237,7 +245,16 @@ const ProfilePage = () => {
         {
           id: 'states',
           type: 'fill',
-          source: 'states'
+          source: 'states',
+          paint: [
+            "interpolate",
+            ["linear"],
+            ["get", "2"],
+            3,
+            "hsl(211, 86%, 79%)",
+            99,
+            "hsl(208, 81%, 60%)"
+          ]
         },
         'state-label'
       );
@@ -294,7 +311,10 @@ const ProfilePage = () => {
 
 
       <Row>
+      <Card title='Map'
+      style={{ top: '100px',  left: '50px', height:'600px' }}>
         <Col span={12}>
+          
           <Row>
             <Col span={24}>
               <div ref={mapContainerRef} className='map-container' />
@@ -303,36 +323,43 @@ const ProfilePage = () => {
                 max={4}
                 onChange={onChange}
                 value={typeof inputValue === 'number' ? inputValue : 0}
-                style={{ top: '670px', width: '500px', left: '117px' }}
+                style={{width: '500px'}}
               />
             </Col>
           </Row>
+          
         </Col>
+        </Card>
+
 
         <Col span={12}>
           <Row>
+          <Card title='Charts'
+          style={{ top:"100px", left: '100px'}}>
             <Row>
               <Col span={8}>
-              <EChartsReact option={chartOptions[0]} style={{width:'250px', top:'40px', right:'50px'}}/>
+              
+                <EChartsReact option={chartOptions[0]} style={{width:'250px', height:'250px'}}/>
               </Col>
               <Col span={8}>
-              <EChartsReact option={chartOptions[2]} style={{width:'250px', top:'40px', right:'50px'}}/>
+              <EChartsReact option={chartOptions[2]} style={{width:'250px',  height:'250px'}}/>
               </Col>
               <Col span={8}>
-              <EChartsReact option={chartOptions[0]} style={{width:'250px', top:'40px', right:'50px'}}/>
+              <EChartsReact option={chartOptions[0]} style={{width:'250px',  height:'250px'}}/>
               </Col>
             </Row>
               <Row>
               <Col span={8}>
-              <EChartsReact option={chartOptions[1]} style={{width:'250px', top:'40px', right:'50px'}}/>
+              <EChartsReact option={chartOptions[1]} style={{width:'250px',  height:'250px'}}/>
               </Col>
               <Col span={8}>
-              <EChartsReact option={chartOptions[0]} style={{width:'250px', top:'40px', right:'50px'}}/>
+              <EChartsReact option={chartOptions[0]} style={{width:'250px',   height:'250px'}}/>
               </Col>
               <Col span={8}>
-              <EChartsReact option={chartOptions[0]} style={{width:'250px', top:'40px', right:'50px'}}/>
+              <EChartsReact option={chartOptions[0]} style={{width:'250px',  height:'250px'}}/>
               </Col>
               </Row>
+              </Card>
           </Row>
         </Col>
       </Row>

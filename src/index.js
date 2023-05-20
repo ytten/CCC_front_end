@@ -1,38 +1,24 @@
 import React from 'react';
 // import ReactDOM from "react-dom";
-
-// import './index.css';
 import reportWebVitals from './reportWebVitals';
-// // import map from './map2'
-// import './App.css'
-// import Wordcloudl from './WordCloud';
-// import AppRouter from './AppRouter';
-
-
-// const root = ReactDOM.createRoot(document.getElementById('root'));
-
-
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <AppRouter />
-//   </React.StrictMode>,
-//   document.getElementById('root')
-// );
-
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./pages/layout";
+import LayoutPage from "./pages/layout";
 import ProfilePage from "./pages/map";
 import KeywordPage from "./pages/map2";
-
+import {Layout, Menu } from 'antd'
+import './index.css';
+import "antd/dist/antd.css";
+const { Header, Content, Footer } = Layout;
 
 export default function App() {
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<LayoutPage />}>
           <Route index element={<ProfilePage />} />
-          <Route path="Keyword" element={<KeywordPage />} />
+          <Route path="Keyword" element={<KeywordPage />} />    
         </Route>
       </Routes>
     </BrowserRouter>
@@ -42,7 +28,28 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <App />
+    <div>
+    <Layout>
+      {/* <Header>
+          <Menu
+          theme='dark'
+          mode="horizontal"
+          style={{ height: '100%', borderRight: 0 }}>
+            <Menu.Item key="/charts">
+              Charts
+            </Menu.Item>
+            <Menu.Item key="/detail">
+              Detail
+            </Menu.Item>
+          </Menu>
+      </Header> */}
+    <Content>
+      <App />
+    </Content>
+
+    </Layout>
+    </div>
+     
   </React.StrictMode>
 );
 

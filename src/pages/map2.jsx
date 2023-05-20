@@ -288,13 +288,13 @@ const KeywordPage = () => {
       backgroundImage: `url(${process.env.PUBLIC_URL + '/bg.png'})` 
     }}>
 
-    <html>
-      <body>
+    {/* <html>
+      <body> */}
         <h1><center>
           This is Header
           </center></h1>
-      </body>
-    </html>
+      {/* </body>
+    </html> */}
       {/* <Legend active={active} stops={active.stops} /> */}
       {/* {/* <Optionsfield
         options={options}
