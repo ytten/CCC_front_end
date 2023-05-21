@@ -21,7 +21,8 @@ url('../public/image/bg.png'); */
 }
 .WordCloudContainer {
   position: relative; /* set position to relative */
-  height: 400px; /* set height of container */
+  height: 400px;
+  top: 100px /* set height of container */
 }
 
 

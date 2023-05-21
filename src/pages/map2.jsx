@@ -18,16 +18,16 @@ mapboxgl.accessToken =
 const KeywordPage = () => {
 
   const [data, setData] = useState([]); 
-  useEffect(() => { asyncFetch(); }, []); 
-  const asyncFetch = () => { 
-    fetch('http://localhost:8080/api/twitter/v1/05b5aa1e0d84a8d6156f9d038ec9ea12')
-    .then((response) => response.json())
-    .then((json) => setData(json))
-    .catch((error) => {
-       console.log('fetch data failed', error);
-      }); 
-    };
-  console.log('data:', data)
+  // useEffect(() => { asyncFetch(); }, []); 
+  // const asyncFetch = () => { 
+  //   fetch('http://localhost:8080/api/twitter/v1/05b5aa1e0d84a8d6156f9d038ec9ea12')
+  //   .then((response) => response.json())
+  //   .then((json) => setData(json))
+  //   .catch((error) => {
+  //      console.log('fetch data failed', error);
+  //     }); 
+  //   };
+  // console.log('data:', data)
   const chartOptions = [{
     title: {
       text: "Test",
@@ -170,7 +170,7 @@ const KeywordPage = () => {
   const [active, setActive] = useState(options[0]);
   const [inputValue, setInputValue] = useState(0);
   const [map, setMap] = useState(null);
-  const [pie, setPie] = useState(null)
+
 
 
   const popup = new mapboxgl.Popup({
@@ -227,37 +227,42 @@ const KeywordPage = () => {
     });
 
     map.on('load', () => {
+      const Layers = map.getStyle().layers
+      console.log(Layers)
       map.addSource('states', {
         type: 'geojson',
         data
       });
 
-      map.setLayoutProperty('state-label', 'text-field', [
-        'format',
-        ['get', 'name_en'],
-        { 'font-scale': 1.2 },
-        ['get', 'name'],
-        {
-          'font-scale': 0.8,
-          'text-font': [
-            'literal',
-          ]
-        }
-      ]);
-
       map.addLayer(
         {
           id: 'states',
           type: 'fill',
-          source: 'states'
+          source: 'states',
+          paint: [
+            "interpolate",
+            ["linear"],
+            ["get", "1"],
+            2,
+            "hsl(0, 66%, 85%)",
+            43,
+            "hsl(0, 93%, 60%)"
+          ]
         },
         'state-label'
       );
 
-      map.setPaintProperty('states', 'fill-color', {
-        property: active.property,
-        stops: active.stops
-      });
+      map.setPaintProperty('states', 'fill-color',
+      [
+        "interpolate",
+        ["linear"],
+        ["get", "1"],
+        2,
+        "hsl(0, 66%, 85%)",
+        43,
+        "hsl(0, 93%, 60%)"
+      ]
+    );
 
       setMap(map);
     });
@@ -272,10 +277,17 @@ const KeywordPage = () => {
 
   const paint = () => {
     if (map) {
-      map.setPaintProperty('states', 'fill-color', {
-        property: active.property,
-        stops: active.stops
-      });
+      map.setPaintProperty('states', 'fill-color',
+      [
+        "interpolate",
+        ["linear"],
+        ["get", "1"],
+        2,
+        "hsl(0, 66%, 85%)",
+        43,
+        "hsl(0, 93%, 60%)"
+      ]
+    );
     }
   };
 
@@ -283,17 +295,24 @@ const KeywordPage = () => {
     setInputValue(i + 1)
     setActive(options[i]);
     // setPie(pie_options[i])
-    map.setPaintProperty('states', 'fill-color', {
-      property: active.property,
-      stops: active.stops
-    });
+    map.setPaintProperty('states', 'fill-color',
+    [
+      "interpolate",
+      ["linear"],
+      ["get", "1"],
+      2,
+      "hsl(0, 66%, 85%)",
+      43,
+      "hsl(0, 93%, 60%)"
+    ]
+    );
   };
 
   const onChange = (newValue) => {
     // setPie(pie_options[newValue - 1])
     setInputValue(newValue);
     setActive(options[newValue - 1])
-  };
+  }; 
 
   return (
     <div>
@@ -310,34 +329,37 @@ const KeywordPage = () => {
       /> */}
 
 
-      <Row>
-        <Card title='Map'
-          style={{ top: '30px', left: '50px', height: '600px' }}>
-          <Col span={12}>
-
-            <Row>
-              <Col span={24}>
-                <div ref={mapContainerRef} className='map-container' />
-                <Slider
-                  min={1}
-                  max={4}
-                  onChange={onChange}
-                  value={typeof inputValue === 'number' ? inputValue : 0}
-                  style={{ width: '500px' }}
-                />
-              </Col>
-            </Row>
-
-          </Col>
+    <Row>
+      <Card title='Map'
+      style={{ top: '30px',  left: '50px', height:'600px' }}>
+        <Col span={12}>
+          
+          <Row>
+            <Col span={24}>
+              <div ref={mapContainerRef} className='map-container' />
+              <Slider
+                min={1}
+                max={4}
+                onChange={onChange}
+                value={typeof inputValue === 'number' ? inputValue : 0}
+                style={{width: '500px'}}
+              />
+            </Col>
+          </Row>
+          
+        </Col>
         </Card>
-
+        <Card title='Legend'
+      style={{ top: '30px',  left: '50px', height:'600px'	}}>
+        <Legend active={active} stops={active.stops} style={{height: '200px', width: '50px', left:'0px', top:'40px'}}/>
+        </Card>
         <Col span={12}>
           <Row>
-            <Card title='Word Cloud'
-              style={{ top: '30px', height: '600px', left: '100px', width: '800px' }}>
-              <Col span={12}>
+          <Card title='Word Cloud'
+          style={{ top: '30px', height:'600px', left:'50px', width:'800px' }}>
+            <Col span={12}>
                 <Wordcloud></Wordcloud>
-              </Col>
+            </Col>
             </Card>
           </Row>
         </Col>

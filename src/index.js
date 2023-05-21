@@ -17,7 +17,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LayoutPage />}>
-          <Route index element={<ProfilePage />} />
+          <Route index element={< ProfilePage />} />
           <Route path="Keyword" element={<KeywordPage />} />    
         </Route>
       </Routes>
@@ -28,27 +28,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <div>
-    <Layout>
-      {/* <Header>
-          <Menu
-          theme='dark'
-          mode="horizontal"
-          style={{ height: '100%', borderRight: 0 }}>
-            <Menu.Item key="/charts">
-              Charts
-            </Menu.Item>
-            <Menu.Item key="/detail">
-              Detail
-            </Menu.Item>
-          </Menu>
-      </Header> */}
+    
+
     <Content>
       <App />
     </Content>
-
-    </Layout>
-    </div>
      
   </React.StrictMode>
 );

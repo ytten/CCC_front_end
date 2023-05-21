@@ -1,16 +1,24 @@
 import ReactEcharts from 'echarts-for-react';
 import * as echarts from "echarts";
 import "echarts-wordcloud";
-import * as React from 'react'
+import * as React from 'react';
+import {createRoot} from 'react-dom/client';
+import {Table, Tag  } from 'antd';
+import data from '/Users/yuxinma/Downloads/CCC_front_end/src/wordcloud_data.json'
+
+// '../wordcloud_data.json'
+
+// const { createRoot } = ReactDOM;
+// const {  Space, Table, Tag  } = antd;
 
 class Wordcloudl extends React.Component{
     state = {
         selectedWord: null,
         associatedtweet: [],
         sampletweet: [
-            { id: 1, text: 'Sam S Club is in this tweet' },
-            { id: 2, text: 'Point Break' },
-            { id: 3, text: 'Lena Dunham' },
+            {"code":0,"data":{"sentiment":0.1111111111111111,"lang":"en","mentions":["1039446506619596800","20559705"],"location":"South Australia, Australia","tags":"CrimesAgainstHumanity|CrimesAgainstChildren|auspol|Australia","party":"LPA","geo":"south australia","keywords":["Integrity question","Integrity","boy"],"_id":"05b5aa1e0d84a8d6156f9d038ec9ea12","_rev":"1-cd393646cfaf4271de56b32cac41d1d2","tweet_id":"1491718722104721412","created_at":"2022-02-10T10:20:32.000Z","tokenized_content":["Here","Integrity","question","for","boy"],"author_id":"1457239558244892674","public_metrics":{"retweet_count":0,"reply_count":0,"like_count":0,"quote_count":0},"raw_text":"1@Mia__Kennedy Here's an Integrity question\nfor #CrimesAgainstHumanity\n#CrimesAgainstChildren \nboy, @PeterDutton_MP \n\n#auspol #Australia https://t.co/dtPhujFhWi","weighted_sentiment":0.1111111111111111},"msg":""},
+            {"code":0,"data":{"sentiment":0.1111111111111111,"lang":"en","mentions":["1039446506619596800","20559705"],"location":"Victoria, Australia","tags":"CrimesAgainstHumanity|CrimesAgainstChildren|auspol|Australia","party":"ALP","geo":"victoria","keywords":["Integrity question","Integrity","boy"],"_id":"05b5aa1e0d84a8d6156f9d038ec9ea12","_rev":"1-cd393646cfaf4271de56b32cac41d1d2","tweet_id":"1491718722104721412","created_at":"2022-02-10T10:20:32.000Z","tokenized_content":["Here","Integrity","question","for","boy"],"author_id":"1457239558244892674","public_metrics":{"retweet_count":0,"reply_count":0,"like_count":0,"quote_count":0},"raw_text":"2@Mia__Kennedy Here's an Integrity question\nfor #CrimesAgainstHumanity\n#CrimesAgainstChildren \nboy, @PeterDutton_MP \n\n#auspol #Australia https://t.co/dtPhujFhWi","weighted_sentiment":0.1111111111111111},"msg":""},
+            {"code":0,"data":{"sentiment":0.1111111111111111,"lang":"en","mentions":["1039446506619596800","20559705"],"location":"New South Wales, Australia","tags":"CrimesAgainstHumanity|CrimesAgainstChildren|auspol|Australia","party":"GREEN","geo":"new south wales","keywords":["Integrity question","Integrity","boy"],"_id":"05b5aa1e0d84a8d6156f9d038ec9ea12","_rev":"1-cd393646cfaf4271de56b32cac41d1d2","tweet_id":"1491718722104721412","created_at":"2022-02-10T10:20:32.000Z","tokenized_content":["Here","Integrity","question","for","boy"],"author_id":"1457239558244892674","public_metrics":{"retweet_count":0,"reply_count":0,"like_count":0,"quote_count":0},"raw_text":"3@Mia__Kennedy Here's an Integrity question\nfor #CrimesAgainstHumanity\n#CrimesAgainstChildren \nboy, @PeterDutton_MP \n\n#auspol #Australia https://t.co/dtPhujFhWi","weighted_sentiment":0.1111111111111111},"msg":""},
         ],
       };
     componentDidMount() {
@@ -33,7 +41,7 @@ class Wordcloudl extends React.Component{
                           sizeRange: [12, 22],
                           // Text rotation range and step in degree. Text will be rotated randomly in range [-90,                                                                             90] by rotationStep 45
 
-                          rotationRange: [0, 5],
+                          rotationRange: [0, 0, 0, 90],
                           maskImage: maskImage,
                           textStyle: {
                               normal: {
@@ -48,86 +56,12 @@ class Wordcloudl extends React.Component{
                           // Folllowing left/top/width/height/right/bottom are used for positioning the word cloud
                           // Default to be put in the center and has 75% x 80% size.
                           left: 'center',
-                          top: '-20%',
+                          top: 'center',
                           right: null,
                           bottom: null,
                           width:'90%',
-                          height:'110%',
-                  data:[
-                    {
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },{
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },{
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },{
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },{
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },{
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },{
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },{
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },{
-                        name: 'Sam S Club',
-                        value: 10000,
-                    },
-                      {
-                          name: 'Sam S Club',
-                          value: 10000,
-                      }, {
-                          name: 'Macys',
-                          value: 6181
-                      }, {
-                          name: 'Amy Schumer',
-                          value: 4386
-                      }, {
-                          name: 'Jurassic World',
-                          value: 4055
-                      }, {
-                          name: 'Charter Communications',
-                          value: 2467
-                      }, {
-                          name: 'Chick Fil A',
-                          value: 2244
-                      }, {
-                          name: 'Planet Fitness',
-                          value: 1898
-                      }, {
-                          name: 'Pitch Perfect',
-                          value: 1484
-                      }, {
-                          name: 'Express',
-                          value: 1112
-                      }, {
-                          name: 'Home',
-                          value: 965
-                      }, {
-                          name: 'Johnny Depp',
-                          value: 847
-                      }, {
-                          name: 'Lena Dunham',
-                          value: 582
-                      }, {
-                          name: 'Lewis Hamilton',
-                          value: 555
-                      }, {
-                          name: 'KXAN',
-                          value: 550
-                      }, {
-                          name: 'Point Break',
-                          value: 265
-                      }]
+                        //   height:'0%',
+                  data: data
               }]
           })
 
@@ -140,9 +74,6 @@ class Wordcloudl extends React.Component{
         //     selectedWord = 'select words in the cloud'
         // }
         this.setState({selectedWord})
-
-       
-        
 
     });
 }
@@ -170,20 +101,21 @@ class Wordcloudl extends React.Component{
         // update sample tweet to associated tweet
         const {sampletweet} = this.state;
         
-
         if (sampletweet === []){
             return <p>No associated tweet, pick another word!</p>
         }
-
         return (
-        <ul>
-            {sampletweet.map((tweet) => (
-            <li key={tweet.id}>
-                <h3>{tweet.id}</h3>
-                <p>{tweet.text}</p>
-            </li>
-            ))}
-        </ul>
+            <div className="tweet-container">
+            <ul>
+                
+                {sampletweet.map((tweet) => (
+                <li key={tweet.data.author_id} style={{width: '600px'}}>
+                    <p>Author: {tweet.data.author_id}, Posted At: {tweet.data.geo}</p>
+                    <p>{tweet.data.raw_text}</p>
+                </li>
+                ))}
+            </ul>
+            </div>
         );
     }
   
@@ -193,9 +125,8 @@ class Wordcloudl extends React.Component{
     
       return(
           <div>
-              <div id='wordcloudl' style={{ height: '250px',top: '40px', width: '600px'}} onClick={this.handleWordClick}> </div>
+              <div id='wordcloudl' style={{ height: '250px',top: '-20px', width: '600px'}} onClick={this.handleWordClick}> </div>
               <div>
-                <h3>Selected Word: {selectedWord}</h3>
                 <h3>Tweets for {selectedWord}</h3>
                 {this.rendertweet()}
               </div>

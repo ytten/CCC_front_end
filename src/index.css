@@ -78,3 +78,9 @@ p {
   height: 10px;
   margin-right: 5px;
 }
+
+.tweet-container {
+  height: 200px; /* Set the desired height for the tweet container */
+  width: 600px;
+  overflow-y: scroll;
+}
