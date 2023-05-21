@@ -8,6 +8,28 @@ import { Col, InputNumber, Row, Slider, Space, Card } from 'antd';
 import Wordcloud from './WordCloud'
 import EChartsReact from "echarts-for-react";
 
+const paint_property = [
+  "interpolate",
+  ["linear"],
+  ["get", "sentiment2"],
+  1,
+  "hsl(0, 58%, 76%)",
+  10,
+  "hsl(0, 73%, 71%)",
+  10.000001,
+  "hsl(175, 35%, 82%)",
+  20,
+  "hsl(208, 61%, 67%)",
+  20.0000001,
+  "hsl(69, 69%, 51%)",
+  30,
+  "hsl(119, 69%, 41%)",
+  30.000001,
+  "hsl(69, 54%, 69%)",
+  40,
+  "hsl(119, 59%, 70%)"
+]
+
 const Map = ({updateMapState}) => {
 
     const options = [
@@ -59,6 +81,18 @@ const Map = ({updateMapState}) => {
       const [map, setMap] = useState(null);
       const [statename, setStatename] = useState(null)
       
+      const [test_data, setData] = useState([]);
+      const asyncFetch = () => {
+        fetch('https://gw.alipayobjects.com/os/bmw-prod/1d565782-dde4-4bb6-8946-ea6a38ccf184.json')
+          .then((response) => response.json())
+          .then((json) => setData(json))
+          .catch((error) => {
+            console.log('fetch data failed', error);
+          });
+      };
+
+      
+      
     
       const popup = new mapboxgl.Popup({
     
@@ -69,6 +103,8 @@ const Map = ({updateMapState}) => {
       
       // Initialize map when component mounts
       useEffect(() => {
+        asyncFetch()
+        console.log(test_data)
         const map = new mapboxgl.Map({
           container: mapContainerRef.current,
           style: 'mapbox://styles/ytten/clhujlbwd006601pvecwh9d76',
@@ -137,10 +173,7 @@ const Map = ({updateMapState}) => {
             },
             'state-label'
           );
-          map.setPaintProperty('states', 'fill-color', {
-            property: active.property,
-            stops: active.stops
-          });
+          map.setPaintProperty('states', 'fill-color',paint_property);
           setMap(map);
         });
         // Clean up on unmount
@@ -151,27 +184,20 @@ const Map = ({updateMapState}) => {
         paint();
       }, [active]);
       const paint = () => {
+        console.log(active.properties)
+        // map.setPaintProperty('states', 'fill-color', active.properties, paint_property)
         if (map) {
-          map.setPaintProperty('states', 'fill-color', {
-            property: active.property,
-            stops: active.stops
-          });
+          map.setPaintProperty('states', 'fill-color', paint_property);
         }
       };
-      const changeState = i => {
-        setInputValue(i + 1)
-        setActive(options[i]);
-        // setPie(pie_options[i])
-        map.setPaintProperty('states', 'fill-color', {
-          property: active.property,
-          stops: active.stops
-        });
-      };
+
       const onChange = (newValue) => {
         // setPie(pie_options[newValue - 1])
         setInputValue(newValue);
         setActive(options[newValue - 1])
+        
       };
+      
     return(
     <div>
         <div ref={mapContainerRef} className='map-container' />
@@ -184,7 +210,10 @@ const Map = ({updateMapState}) => {
                 value={typeof inputValue === 'number' ? inputValue : 0}
                 style={{width: '500px'}}
               />
-              
+        <Card 
+        style={{top:'370px', height:'70px', width:'240px'}}>
+        <Legend active={active} stops={active.stops} />
+        </Card>
     </div>
     
 
