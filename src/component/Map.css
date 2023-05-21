@@ -25,7 +25,13 @@ url('../public/image/bg.png'); */
   top: 100px /* set height of container */
 }
 
+.mapboxgl-ctrl-attrib-inner {
+  display: none;
 
+}
+.mapboxgl-ctrl-attrib-button {
+  display: none;
+}
 .map-container {
   position: absolute;
   left: 0%;

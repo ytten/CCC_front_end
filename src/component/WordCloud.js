@@ -4,7 +4,8 @@ import "echarts-wordcloud";
 import * as React from 'react';
 import {createRoot} from 'react-dom/client';
 import {Table, Tag  } from 'antd';
-import data from '/Users/yuxinma/Downloads/CCC_front_end/src/wordcloud_data.json'
+import data from '../wordcloud_data_au.json'
+import map from './map'
 
 // '../wordcloud_data.json'
 
@@ -38,7 +39,7 @@ class Wordcloudl extends React.Component{
                           gridSize: 1,
                           // Text size range which the value in data will be mapped to.
                           // Default to have minimum 12px and maximum 60px size.
-                          sizeRange: [12, 22],
+                          sizeRange: [6, 32],
                           // Text rotation range and step in degree. Text will be rotated randomly in range [-90,                                                                             90] by rotationStep 45
 
                           rotationRange: [0, 0, 0, 90],
@@ -69,7 +70,10 @@ class Wordcloudl extends React.Component{
       myChart.getZr().on('click', (event) => {
 
         const selectedWord = event.target.style.text;
+        const savedState = localStorage.getItem('MapState');
+        const currentstate = JSON.parse(savedState);
         console.log('selectedWord:', selectedWord);
+        console.log('current state: ', currentstate);
         // if (typeof selectedWord  === "undefined"){
         //     selectedWord = 'select words in the cloud'
         // }

@@ -4,11 +4,11 @@ import reportWebVitals from './reportWebVitals';
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LayoutPage from "./pages/layout";
-import ProfilePage from "./pages/map";
-import KeywordPage from "./pages/map2";
+import ProfilePage from "./pages/page";
+import KeywordPage from "./pages/page2";
 import {Layout, Menu } from 'antd'
 import './index.css';
-import "antd/dist/antd.css";
+import 'antd/dist/antd.min.css';
 const { Header, Content, Footer } = Layout;
 
 export default function App() {
