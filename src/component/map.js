@@ -130,9 +130,9 @@ const Map = ({updateMapState}) => {
           map.getCanvas().style.cursor = 'pointer';
           const statename = e.features['0']['properties']['STATE_NAME']
           localStorage.setItem('MapState', JSON.stringify(statename));
+          console.log(statename)
           setStatename(statename);
-          updateMapState(statename);
- // Invoke callback function to update parent state
+          updateMapState(statename); // Invoke callback function to update parent state
 
         //   console.log('state name: ', e)
           const ALP = e.features['0']['properties']['sentiment']
@@ -203,23 +203,7 @@ const Map = ({updateMapState}) => {
 
       const onChange = (newValue) => {
         // setPie(pie_options[newValue - 1])
-        var dateTime = newValue -12
-        if(dateTime >= 0){
-          if(dateTime >= 10){
-            dateTime = '2023-' + dateTime
-          }else{
-            dateTime = '2023-0' + dateTime
-          }
-        }else{
-          if(dateTime >= 0){
-            if(dateTime >= 10){
-              dateTime = '2022-' + dateTime
-            }else{
-              dateTime = '2022-0' + dateTime
-            }
-          }
-        }
-        axios.get('http://localhost:8080/api/twitter/v1/party/sentiment')
+        axios.get()
         setInputValue(newValue);
         setActive(options[newValue - 1])
         
