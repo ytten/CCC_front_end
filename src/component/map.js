@@ -146,8 +146,8 @@ const Map = ({updateMapState}) => {
               .setLngLat(map.getCenter())
               // .setText(value)
               // .setText(state_name)
-              .setHTML('<p>Name: ' + statename + '</p>' +
-                '<p>Sentiment: ' + ALP + '</p>'  )
+              .setHTML('<p>' + statename + '</p>' +
+                '<p>Highest Support Rate: ' + LPA + '</p>'  )
                 // '<p>Sentiment: ' + LPA + '</p>'+
                 // '<p>Sentiment: ' + NAP + '</p>'+
                 // '<p>Sentiment: ' + NGP + '</p>')
