@@ -13,14 +13,15 @@ import axios from 'axios'
 // import "./styles.css";
 
 const states = {
-  '0': 'New South Wales',
-  '1': 'Northern Territory',
-  '2': 'Queensland',
-  '3': 'South Australia',
-  '4': 'Tasmania',
-  '5': 'Victoria',
-  '6': 'Western Australia'
+  'New South Wales': 0,
+  'Northern Territory': 1,
+  'Queensland': 2,
+  'South Australia': 3,
+  'Tasmania': 4,
+  'Victoria': 5,
+  'Western Australia':6
 }
+
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoieXR0ZW4iLCJhIjoiY2xoMW03bXMzMTRreTNzcWhvMDZjbngxeSJ9.zqejo9sD3BqcxLbnKkB5yg';
@@ -31,16 +32,7 @@ const ProfilePage = () => {
   // const POPurl = 'http://localhost:8080/api/population/v1/all'
   // const MIGurl = 'http://localhost:8080/api/migration/v1/all'
   // const voteurl = 'http://localhost:8080/api/vote/v1/all'
-  const [emp_rate, setEmpstate] = useState([])
-  const [vote, setVotestate] = useState([])
-  const [GDP, setGDPstate] = useState([])
-  const [statename, setStatename] = useState(null)
-  const [currentstate, setCurrentstate] = useState('');
-  const [data, setData] = useState([]);
-  const [salary, setSalary] = useState([]);
-  const [migration, setMigration] = useState([])
-
-  const EmpChartSetup = {
+  const [emp_chart, setEmpchartstate] = useState({
     title: {
       text: "Empolyment rate",
       // subtext: "Fake Data",
@@ -52,7 +44,6 @@ const ProfilePage = () => {
     },
     series: [
       {
-        data: emp_rate,
         name: "Access From",
         type: "pie",
         radius: "60%",
@@ -67,10 +58,10 @@ const ProfilePage = () => {
       },
 
     ]
-  }
-  const GDPChartSetup = {
+  })
+  const [vote_chart, setVotechartstate] = useState({
     title: {
-      text: "GDP Composition",
+      text: "Votes",
       // subtext: "Fake Data",
       left: "center",
       top: "bottom"
@@ -80,7 +71,6 @@ const ProfilePage = () => {
     },
     series: [
       {
-        data: GDP,
         name: "Access From",
         type: "pie",
         radius: "60%",
@@ -95,128 +85,113 @@ const ProfilePage = () => {
 
       }
     ]
-  }
-  const VoteChartSetup = {
+  })
+  const [GDP_chart, setGDPchartstate] = useState({
     title: {
-      text: "Votes",
+      text: "GDP Composition",
       // subtext: "Fake Data",
       left: "center",
       top: "bottom"
-    },
-    xAxis: {
-      type: "category",
-      data: ["Labor Party", "Liberal Party"]
-    },
-    yAxis: {
-      type: "value"
     },
     tooltip: {
       trigger: "item"
     },
     series: [
       {
-        data: vote,
-        type: "bar",
-        smooth: true
+        name: "Access From",
+        type: "pie",
+        radius: "60%",
+        label: [],
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: "rgba(0, 0, 0, 0.5)"
+          }
+        }
+
       }
-    ],
-    tooltip: {
-      trigger: "axis"
-    }
-  }
+    ]
+  })
+  const [statename, setStatename] = useState(null)
+  const [salary, setSalary] = useState([]);
+  const [migration, setMigration] = useState([])
 
-  const MigrationChartSetup = {
-    title: {
-      text: "Net Overseas Migration",
-      // subtext: "Fake Data",
-      left: "center",
-      top: "bottom"
-    },
-    xAxis: {
-      type: "category",
-      data: ["State", "Average "],
-      axisLabel: {
-        textStyle: {
-          fontSize: 12, // Set the font size for x-axis labels
-        },
-      },
-    },
-    yAxis: {
-      type: "value",
-      axisLabel: {
-        textStyle: {
-          fontSize: 7, // Set the font size for x-axis labels
-        },
-      },
 
-    },
+  // const MigrationChartSetup = {
+  //   title: {
+  //     text: "Net Overseas Migration",
+  //     // subtext: "Fake Data",
+  //     left: "center",
+  //     top: "bottom"
+  //   },
+  //   xAxis: {
+  //     type: "category",
+  //     data: ["State", "Average "],
+  //     axisLabel: {
+  //       textStyle: {
+  //         fontSize: 12, // Set the font size for x-axis labels
+  //       },
+  //     },
+  //   },
+  //   yAxis: {
+  //     type: "value",
+  //     axisLabel: {
+  //       textStyle: {
+  //         fontSize: 7, // Set the font size for x-axis labels
+  //       },
+  //     },
 
-    series: [
-      {
-        data: migration,
-        type: "bar",
-        smooth: true
-      }
-    ],
-    tooltip: {
-      trigger: "axis"
-    }
-  }
-  const WeeklySalarySetup = {
-    title: {
-      text: "Weekly Salary",
-      // subtext: "Fake Data",
-      left: "center",
-      top: "bottom"
-    },
-    xAxis: {
-      type: "category",
-      data: ["<1999", "2000-2999", ">3000"],
-      axisLabel: {
-        textStyle: {
-          fontSize: 12, // Set the font size for x-axis labels
-        },
-      },
-    },
-    yAxis: {
-      type: "value",
-      axisLabel: {
-        textStyle: {
-          fontSize: 7, // Set the font size for x-axis labels
-        },
-      },
+  //   },
 
-    },
+  //   series: [
+  //     {
+  //       data: migration,
+  //       type: "bar",
+  //       smooth: true
+  //     }
+  //   ],
+  //   tooltip: {
+  //     trigger: "axis"
+  //   }
+  // }
+  // const WeeklySalarySetup = {
+  //   title: {
+  //     text: "Weekly Salary",
+  //     // subtext: "Fake Data",
+  //     left: "center",
+  //     top: "bottom"
+  //   },
+  //   xAxis: {
+  //     type: "category",
+  //     data: ["<1999", "2000-2999", ">3000"],
+  //     axisLabel: {
+  //       textStyle: {
+  //         fontSize: 12, // Set the font size for x-axis labels
+  //       },
+  //     },
+  //   },
+  //   yAxis: {
+  //     type: "value",
+  //     axisLabel: {
+  //       textStyle: {
+  //         fontSize: 7, // Set the font size for x-axis labels
+  //       },
+  //     },
 
-    series: [
-      {
-        data: salary,
-        type: "bar",
-        smooth: true
-      }
-    ],
-    tooltip: {
-      trigger: "axis"
-    }
-  }
+  //   },
 
-  useEffect(() => {
-    if (typeof localStorage !== 'undefined') {
-      var savedState = localStorage.getItem('MapState');
-      var currentstate = JSON.parse(savedState);
-      console.log('current state: ', currentstate.toLowerCase());
-      setCurrentstate(currentstate.toLowerCase())
-      updateMapState(currentstate)
-      // if currentstate changes, fetch wordcloud data
-      if (currentstate != '') {
-        axios.get('http://localhost:8080/api/employment/2018/v1/all', {
-        }).then(res => {
-          console.log('api data state: ', res.data.data)
-          setData(res.data.currentstate)
-        })
-      }
-    }
-  }, [statename])
+  //   series: [
+  //     {
+  //       data: salary,
+  //       type: "bar",
+  //       smooth: true
+  //     }
+  //   ],
+  //   tooltip: {
+  //     trigger: "axis"
+  //   }
+  // }
 
   const updateMapState = (newState) => {
     setStatename(newState);
@@ -231,7 +206,8 @@ const ProfilePage = () => {
         var temp = res.data.data[0]
         var unknown = 100 - temp['employment_rate'] - temp['unemployment_rate']
         if (typeof input !== 'undefined') {
-
+          
+          // eslint-disable-next-line react-hooks/exhaustive-deps
           input = [
             { name: states[0] + 'Employment_rate', value: temp['employment_rate'] },
             { name: states[0] + 'unemployment_rate', value: temp['unemployment_rate'] },
@@ -239,7 +215,9 @@ const ProfilePage = () => {
           ]
           console.log(input)
           if (input.length !== 0) {
-            setEmpstate(input)
+            var temp_chart = emp_chart
+            temp_chart.series[0]['data'] = input
+            setEmpchartstate(temp_chart)
           }
         }
       })
@@ -257,54 +235,56 @@ const ProfilePage = () => {
         ]
         console.log('vote', vote)
         if (input.length !== 0) {
-          setVotestate(input)
+          var temp_chart = vote_chart
+          temp_chart.series[0]['data'] = input
+          setVotechartstate(input)
         }
       }
       );
-    axios.get('http://localhost:8080/api/agesalary/2016/v1/all').then(res => {
-      var salary_all = res.data.data[0]
-      input = [
-        {
-          name: "1750 to 1999", value: salary_all['tot_1750_1999_tot']
-        },
-        {
-          name: "2000 to 2999", value: salary_all['tot_2000_2999_tot']
-        },
-        {
-          name: "Over 3000", value: salary_all["tot_3000mo_tot"]
-        },
-      ]
-      console.log('salary ', salary_all)
-      if (input.length !== 0) {
-        setSalary(input)
-      }
-    })
-      axios.get('http://localhost:8080/api/migration/v1/all').then(res => {
-        var migration_all = res.data.data
-        var migration_count = 0
-        for (var i = 0; i < migration_all.length; i++){
-          var state_migration = migration_all[i]
-          migration_count = migration_count + state_migration["net_overseas_migration_2019_20"]
-        }
-        var migration_avg = migration_count / (migration_all.length)
-        var state_name = migration_all[0]["state_name_2021"]
-        var option = [
-          {
-            name: state_name,  value: migration_all[0]['net_overseas_migration_2019_20'],itemStyle: { color: '466D1D' }
+    // axios.get('http://localhost:8080/api/agesalary/2016/v1/all').then(res => {
+    //   var salary_all = res.data.data[0]
+    //   input = [
+    //     {
+    //       name: "1750 to 1999", value: salary_all['tot_1750_1999_tot']
+    //     },
+    //     {
+    //       name: "2000 to 2999", value: salary_all['tot_2000_2999_tot']
+    //     },
+    //     {
+    //       name: "Over 3000", value: salary_all["tot_3000mo_tot"]
+    //     },
+    //   ]
+    //   console.log('salary ', salary_all)
+    //   if (input.length !== 0) {
+    //     setSalary(input)
+    //   }
+    // })
+    //   axios.get('http://localhost:8080/api/migration/v1/all').then(res => {
+    //     var migration_all = res.data.data
+    //     var migration_count = 0
+    //     for (var i = 0; i < migration_all.length; i++){
+    //       var state_migration = migration_all[i]
+    //       migration_count = migration_count + state_migration["net_overseas_migration_2019_20"]
+    //     }
+    //     var migration_avg = migration_count / (migration_all.length)
+    //     var state_name = migration_all[0]["state_name_2021"]
+    //     var option = [
+    //       {
+    //         name: state_name,  value: migration_all[0]['net_overseas_migration_2019_20'],itemStyle: { color: '466D1D' }
 
-          },
-          {
-            name: "All State Avg",  value: migration_avg,itemStyle: { color: 'D6B85A' }
+    //       },
+    //       {
+    //         name: "All State Avg",  value: migration_avg,itemStyle: { color: 'D6B85A' }
 
-          },
+    //       },
 
-        ]
-        console.log('migration ',migration_all)
-        if (option.length !== 0) {
-          setMigration(option)
-        }
+    //     ]
+    //     console.log('migration ',migration_all)
+    //     if (option.length !== 0) {
+    //       setMigration(option)
+    //     }
 
-      })
+    //   })
 
       axios.get('http://localhost:8080/api/gdp/v1/all')
       .then(res=> {
@@ -338,7 +318,9 @@ const ProfilePage = () => {
         ]
         console.log('gdp ',gdp)
         if (input.length !== 0) {
-          setGDPstate(input)
+            var temp_chart = GDP_chart
+            temp_chart.series[0]['data'] = input
+            setGDPchartstate(temp_chart)
         }
       })
 }, [])
@@ -381,23 +363,23 @@ const ProfilePage = () => {
               style={{ top: "100px", left: '100px', height: '600px' }}>
               <Row>
                 <Col span={8}>
-                  <EChartsReact option={EmpChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} />
+                  <EChartsReact option={emp_chart} style={{ width: '250px', height: '250px', bottom: '40px' }} />
                 </Col>
                 <Col span={8}>
-                  <EChartsReact option={VoteChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} />
+                  <EChartsReact option={vote_chart} style={{ width: '250px', height: '250px', bottom: '40px' }} />
                 </Col>
                 <Col span={8}>
-                  <EChartsReact option={GDPChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} />
+                  <EChartsReact option={GDP_chart} style={{ width: '250px', height: '250px', bottom: '40px' }} />
                 </Col>
               </Row>
               <Row>
 
-                <Col span={9}>
+                {/* <Col span={9}>
                   <EChartsReact option={WeeklySalarySetup} style={{ width: '300px', height: '250px', bottom: '40px' }} />
                 </Col>
                 <Col span={8}>
                   <EChartsReact option={MigrationChartSetup} style={{ width: '200px', height: '250px', bottom: '40px' }} />
-                </Col>
+                </Col> */}
               </Row>
             </Card>
           </Row>
