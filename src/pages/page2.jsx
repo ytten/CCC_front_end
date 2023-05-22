@@ -18,6 +18,10 @@ mapboxgl.accessToken =
 
 const KeywordPage = () => {
 
+  const [statename, setStatename] = useState(null)
+  const updateMapState = (newState) => {
+    setStatename(newState);
+  };
 
 
   return (
@@ -38,11 +42,14 @@ const KeywordPage = () => {
     <Row>
       <Card title='Map'
       style={{ top: '30px',  left: '50px', height:'600px' }}>
+        <Row>
+          <h5>{statename}</h5>
+        </Row>
         <Col span={12}>
           
           <Row>
             <Col span={24}>
-              <Map></Map>
+              <Map updateMapState={updateMapState}></Map>
             </Col>
           </Row>
           

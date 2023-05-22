@@ -57,8 +57,8 @@ const Map = ({updateMapState}) => {
       const [active, setActive] = useState(options[0]);
       const [inputValue, setInputValue] = useState(0);
       const [map, setMap] = useState(null);
-      const [statename, setStatename] = useState(null)
-      
+      const [statename, setStatename] = useState([])
+      // 
     
       const popup = new mapboxgl.Popup({
     
