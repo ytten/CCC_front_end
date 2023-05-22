@@ -37,7 +37,7 @@ const ProfilePage = () => {
   const [statename, setStatename] = useState(null)
   const [currentstate, setCurrentstate] = useState('');
   const [data, setData] = useState([]);
-
+  const [salary, setSalary] = useState([]);
 
   const EmpChartSetup = {
     title: {
@@ -82,7 +82,7 @@ const ProfilePage = () => {
         name: "Access From",
         type: "pie",
         radius: "60%",
-        label: null,
+        label: [],
         emphasis: {
           itemStyle: {
             shadowBlur: 10,
@@ -100,28 +100,62 @@ const ProfilePage = () => {
       left: "center",
       top: "bottom"
     },
+    xAxis: {
+      type: "category",
+      data: ["Labor Party", "Liberal Party"]
+    },
+    yAxis: {
+      type: "value"
+    },
     tooltip: {
       trigger: "item"
     },
     series: [
       {
         data: vote,
-        name: "Access From",
-        type: "pie",
-        radius: "60%",
-        label: null,
-        emphasis: {
-          itemStyle: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: "rgba(0, 0, 0, 0.5)"
-          }
-        }
+        type: "bar",
+        smooth: true
       }
-    ]
+    ],
+    tooltip: {
+      trigger: "axis"
+    }
   }
 
+  const WeeklySalarySetup = {
+    title: {
+      text: "Weekly Salary",
+      // subtext: "Fake Data",
+      left: "center",
+      top: "bottom"
+    },
+    xAxis: {
+      type: "category",
+      data: ["<1999", "2000-2999",">3000"]
+    },
+    yAxis: {
+      type: "value",
+      axisLabel: {
+        textStyle: {
+          fontSize: 7, // Set the font size for x-axis labels
+        },
+      },
 
+    },
+
+    series: [
+      {
+        data: salary,
+        type: "bar",
+        smooth: true
+      }
+    ],
+    tooltip: {
+      trigger: "axis"
+    }
+
+
+  }
 
 
   useEffect(() => {
@@ -166,15 +200,16 @@ const ProfilePage = () => {
             setEmpstate(input)
           }
         }
+
         axios.get('http://localhost:8080/api/vote/v1/2016')
           .then(res => {
             var vote = res.data.data[0]
             input = [
               {
-                name: 'Australian Labor Party Percentage', value: vote['tpp_australian_labor_party_percentage']
+                name: 'Australian Labor Party Percentage', value: vote['tpp_australian_labor_party_percentage'],itemStyle: {color: '#eb7f7f'},
               },
               {
-                name: 'Liberal National Coalition Percentage', value: vote['tpp_liberal_national_coalition_percentage']
+                name: 'Liberal National Coalition Percentage', value: vote['tpp_liberal_national_coalition_percentage'],itemStyle: {color: '#78aede'},
               },
             ]
             console.log('vote', vote)
@@ -183,6 +218,27 @@ const ProfilePage = () => {
             }
           }
         )
+        axios.get('http://localhost:8080/api/agesalary/2016/v1/all').then(res => {
+          var salary_all = res.data.data[0]
+          input = [
+            {
+              name : "1750 to 1999", value: salary_all['tot_1750_1999_tot']
+            },
+            {
+              name : "2000 to 2999", value: salary_all['tot_2000_2999_tot']
+            },
+            {
+              name : "Over 3000", value: salary_all["tot_3000mo_tot"]
+            },
+          ]
+          console.log('salary ',salary_all)
+          if (input.length !== 0) {
+            setSalary(input)
+          }
+   
+          
+        })
+
         axios.get('http://localhost:8080/api/gdp/v1/all')
         .then(res=> {
           var gdp = res.data.data[0]
@@ -271,8 +327,8 @@ const ProfilePage = () => {
               </Row>
               <Row>
 
-                <Col span={24}>
-                  <BarChart style={{ bottom: '40px' }} />
+                <Col span={8}>
+                  <EChartsReact option={WeeklySalarySetup} style={{ width:  '300px', height: '250px', bottom: '40px' }} />
                 </Col>
               </Row>
             </Card>
