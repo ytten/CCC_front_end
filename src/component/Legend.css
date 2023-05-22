@@ -1,0 +1,14 @@
+.legend {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+  
+  .label {
+    margin-left: 5px;
+  }

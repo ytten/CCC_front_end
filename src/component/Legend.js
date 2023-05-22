@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './Legend.css'
 const Legend = () => {
   const legendItems = [
     { color: '#eb7f7f', label: 'ALP' },
@@ -12,7 +12,7 @@ const Legend = () => {
     <div className="legend">
       {legendItems.map((item, index) => (
         <div key={index} className="legend-item">
-          <div className="color-box" style={{ backgroundColor: item.color, height: '5px'}}></div>
+          <div className="color-box" style={{ backgroundColor: item.color, height: '5px', width:'10px'}}></div>
           <span className="label">{item.label}</span>
         </div>
       ))}
@@ -21,3 +21,4 @@ const Legend = () => {
 };
 
 export default Legend;
+
