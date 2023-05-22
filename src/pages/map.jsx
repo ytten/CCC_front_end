@@ -10,6 +10,8 @@ import EChartsReact from "echarts-for-react";
 import BarChart from '../component/barChart';
 // import "./styles.css";
 
+var states = ['New South Wales', 'Victoria', 'Queensland', 'Western Australia', 'South Australia', 'Tasmania', 'Australian Capital Territory', 'Northern Territory']
+
 
 
 mapboxgl.accessToken =

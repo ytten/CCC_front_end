@@ -7,6 +7,8 @@ import data from '../data.json';
 import { Col, InputNumber, Row, Slider, Space, Card } from 'antd';
 import Wordcloud from './WordCloud'
 import EChartsReact from "echarts-for-react";
+import axios from 'axios';
+
 
 const paint_property = [
   "interpolate",
@@ -29,8 +31,27 @@ const paint_property = [
   40,
   "hsl(119, 59%, 70%)"
 ]
+var states = ['new%20south%20wales', 'victoria', 'queensland', 'western%20australia', 'south%20australia', 'tasmania', 'australian%20capital%20territory', 'northern%20territory'];
+
+var months = ['01','02','03','04','05','06','07','08','09','10','11','12']
+
+var years = ['2022', '2023']
+
+
 
 const Map = ({updateMapState}) => {
+    // for (var i = 0; i < states.length; i++) {
+    //   for (var j = 0; j < years.length; j++){
+    //     for (var k = 0; k < months.length; k++)
+    //       // console.log('http://localhost:8080/api/twitter/v1/sentiment?geo=' + states[i] + '&t=' + years[j] + '-' + months[k])
+    //       axios.get('http://localhost:8080/api/twitter/v1/sentiment?geo=' + states[i] + '&t=' + years[j] + '-' + months[k])
+    //       .then(res=>{
+
+    //         console.log(res.data)
+    //     })
+    //   }
+      
+    // }
 
     const options = [
         {
@@ -91,8 +112,8 @@ const Map = ({updateMapState}) => {
       
       // Initialize map when component mounts
       useEffect(() => {
-        asyncFetch()
-        console.log(test_data)
+        // asyncFetch()
+        // console.log(test_data)
         const map = new mapboxgl.Map({
           container: mapContainerRef.current,
           style: 'mapbox://styles/ytten/clhujlbwd006601pvecwh9d76',
@@ -109,6 +130,7 @@ const Map = ({updateMapState}) => {
           map.getCanvas().style.cursor = 'pointer';
           const statename = e.features['0']['properties']['STATE_NAME']
           localStorage.setItem('MapState', JSON.stringify(statename));
+          console.log(statename)
           setStatename(statename);
           updateMapState(statename); // Invoke callback function to update parent state
 
@@ -172,7 +194,7 @@ const Map = ({updateMapState}) => {
         paint();
       }, [active]);
       const paint = () => {
-        console.log(active.properties)
+        // console.log(active.properties)
         // map.setPaintProperty('states', 'fill-color', active.properties, paint_property)
         if (map) {
           map.setPaintProperty('states', 'fill-color', paint_property);
@@ -181,6 +203,7 @@ const Map = ({updateMapState}) => {
 
       const onChange = (newValue) => {
         // setPie(pie_options[newValue - 1])
+        axios.get()
         setInputValue(newValue);
         setActive(options[newValue - 1])
         
@@ -193,14 +216,14 @@ const Map = ({updateMapState}) => {
         {/* <Wordcloud statename={statename}/> */}
               <Slider
                 min={1}
-                max={4}
+                max={24}
                 onChange={onChange}
                 value={typeof inputValue === 'number' ? inputValue : 0}
                 style={{width: '500px'}}
               />
         <Card 
         style={{top:'370px', height:'70px', width:'240px'}}>
-        <Legend active={active} stops={active.stops} />
+        {/* <Legend active={active} stops={active.stops} /> */}
         </Card>
     </div>
     

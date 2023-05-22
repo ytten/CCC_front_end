@@ -4,25 +4,44 @@ import Legend from '../component/Legend';
 import Optionsfield from '../component/Optionsfield';
 // import '../Component/Map.css';
 import data from '../data.json';
-import { Col, InputNumber, Row, Slider, Space, Card, Layout} from 'antd';
+import { Col, InputNumber, Row, Slider, Space, Card, Layout } from 'antd';
 import Wordcloud from '../component/WordCloud'
 import EChartsReact from "echarts-for-react";
 import BarChart from '../component/barChart';
 import Map from '../component/map'
+import axios from 'axios'
 // import "./styles.css";
 
-
+const states = {
+  '0': 'New South Wales',
+  '1': 'Northern Territory',
+  '2': 'Queensland',
+  '3': 'South Australia',
+  '4': 'Tasmania',
+  '5': 'Victoria',
+  '6': 'Western Australia'
+}
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoieXR0ZW4iLCJhIjoiY2xoMW03bXMzMTRreTNzcWhvMDZjbngxeSJ9.zqejo9sD3BqcxLbnKkB5yg';
 
 
 const ProfilePage = () => {
+  // const GDPurl = 'http://localhost:8080/api/gdp/v1/all'
+  // const POPurl = 'http://localhost:8080/api/population/v1/all'
+  // const MIGurl = 'http://localhost:8080/api/migration/v1/all'
+  // const voteurl = 'http://localhost:8080/api/vote/v1/all'
+  const [emp_rate, setEmpstate] = useState([])
+  const [vote, setVotestate] = useState([])
+  const [GDP, setGDPstate] = useState([])
+  const [statename, setStatename] = useState(null)
+  const [currentstate, setCurrentstate] = useState('');
+  const [data, setData] = useState([]);
 
 
-  const chartOptions = [{
+  const EmpChartSetup = {
     title: {
-      text: "Test",
+      text: "Empolyment rate",
       // subtext: "Fake Data",
       left: "center",
       top: "bottom"
@@ -32,17 +51,11 @@ const ProfilePage = () => {
     },
     series: [
       {
+        data: emp_rate,
         name: "Access From",
         type: "pie",
         radius: "60%",
         label: null,
-        data: [
-          { value: 1048, name: "Search Engine" },
-          { value: 735, name: "Direct" },
-          { value: 580, name: "Email" },
-          { value: 484, name: "Union Ads" },
-          { value: 300, name: "Video Ads" }
-        ],
         emphasis: {
           itemStyle: {
             shadowBlur: 10,
@@ -52,100 +65,178 @@ const ProfilePage = () => {
         }
       }
     ]
-  },{
-      title: {
-        text: "Test",
-        // subtext: "Fake Data",
-        left: "center",
-        top: "bottom"
-
-      },
-      tooltip: {
-        trigger: "item"
-      },
-      series: [
-        {
-          name: "Access From",
-          type: "pie",
-          radius: "60%",
-          label: null,
-          data: [
-            { value: 1, name: "Search Engine" },
-            { value: 735, name: "Direct" },
-            { value: 3, name: "Email" },
-            { value: 484, name: "Union Ads" },
-            { value: 300, name: "Video Ads" }
-          ],
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: "rgba(0, 0, 0, 0.5)"
-            }
-          }
-        }
-      ]
-    },{
-      title: {
-        text: "Test",
-        // subtext: "Fake Data",
-        left: "center",
-        top: "bottom"
-      },
-      tooltip: {
-        trigger: "item"
-      },
-      series: [
-        {
-          name: "Access From",
-          type: "pie",
-          radius: "60%",
-          label: null,
-          data: [
-            { value: 1000, name: "Search Engine" },
-            { value: 735, name: "Direct" },
-            { value: 580, name: "Email" },
-            { value: 484, name: "Union Ads" },
-            { value: 4, name: "Video Ads" }
-          ],
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: "rgba(0, 0, 0, 0.5)"
-            }
-          }
-        }
-      ]
+  }
+  const GDPChartSetup = {
+    title: {
+      text: "GDP Composition",
+      // subtext: "Fake Data",
+      left: "center",
+      top: "bottom"
     },
-  ]
-  const [statename, setStatename] = useState(null)
+    tooltip: {
+      trigger: "item"
+    },
+    series: [
+      {
+        data: GDP,
+        name: "Access From",
+        type: "pie",
+        radius: "60%",
+        label: null,
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: "rgba(0, 0, 0, 0.5)"
+          }
+        }
+      }
+    ]
+  }
+  const VoteChartSetup = {
+    title: {
+      text: "Votes",
+      // subtext: "Fake Data",
+      left: "center",
+      top: "bottom"
+    },
+    tooltip: {
+      trigger: "item"
+    },
+    series: [
+      {
+        data: vote,
+        name: "Access From",
+        type: "pie",
+        radius: "60%",
+        label: null,
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: "rgba(0, 0, 0, 0.5)"
+          }
+        }
+      }
+    ]
+  }
+
+
+
+
+  useEffect(() => {
+    if (typeof localStorage !== 'undefined') {
+      var savedState = localStorage.getItem('MapState');
+      var currentstate = JSON.parse(savedState);
+      console.log('current state: ', currentstate.toLowerCase());
+      setCurrentstate(currentstate.toLowerCase())
+      updateMapState(currentstate)
+      // if currentstate changes, fetch wordcloud data
+      if (currentstate != '') {
+        axios.get('http://localhost:8080/api/employment/2018/v1/all', {
+        }).then(res => {
+          console.log('api data state: ', res.data.data)
+          setData(res.data.currentstate)
+        })
+      }
+    }
+  }, [statename])
+
   const updateMapState = (newState) => {
     setStatename(newState);
   };
 
+  var input = []
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/employment/2018/v1/all')
+      .then(res => {
+        // var index = states.indexOf(currentstate)
+        var temp = res.data.data[0]
+        var unknown = 100 - temp['employment_rate'] - temp['unemployment_rate']
+        if (typeof input !== 'undefined') {
+
+          input = [
+            { name: states[0] + 'Employment_rate', value: temp['employment_rate'] },
+            { name: states[0] + 'unemployment_rate', value: temp['unemployment_rate'] },
+            { name: states[0] + 'Unknown', value: unknown }
+          ]
+          console.log(input)
+          if (input.length !== 0) {
+            setEmpstate(input)
+          }
+        }
+        axios.get('http://localhost:8080/api/vote/v1/2016')
+          .then(res => {
+            var vote = res.data.data[0]
+            input = [
+              {
+                name: 'Australian Labor Party Percentage', value: vote['tpp_australian_labor_party_percentage']
+              },
+              {
+                name: 'Liberal National Coalition Percentage', value: vote['tpp_liberal_national_coalition_percentage']
+              },
+            ]
+            console.log('vote', vote)
+            if (input.length !== 0) {
+              setVotestate(input)
+            }
+          }
+        )
+        axios.get('http://localhost:8080/api/gdp/v1/all')
+        .then(res=> {
+          var gdp = res.data.data[0]
+          input = [
+            {
+              name: 'ACT', value: gdp['ACT']
+            },
+            {
+              name: 'NSW', value: gdp['NSW']
+            },
+            {
+              name:'NT', value: gdp['NT']
+            },
+            {
+              name:'QLD', value: gdp['QLD']
+            },
+            {
+              name:'SA', value: gdp['SA']
+            }, 
+            {
+              name:'TAS', value: gdp['TAS']
+            },
+            {
+              name:'VIC', value: gdp['VIC']
+            },
+            {
+              name:'WA', value: gdp['WA']
+            }
+
+          ]
+          console.log('gdp ',gdp)
+          if (input.length !== 0) {
+            setGDPstate(input)
+          }
+        })
+      })
+    
+  }, [])
+
   return (
 
     <div className="body">
-      
-      {/* {/* <Optionsfield
-        options={options}
-        property={active.property}
-        changeState={changeState}
-      /> */}
-          
-      
+
       <Row>
-      <Card title='Map'
-      style={{ top: '100px',  left: '50px', height:'600px'	}}>
-        <Row>
-          <h5>{statename}</h5>
-        </Row>
-        <Col span={12}>
-          
+        <Card title='Map'
+          style={{ top: '100px', left: '50px', height: '600px' }}>
           <Row>
-            <Col span={24}>
-              {/* <div ref={mapContainerRef} className='map-container' />
+            <h5>{statename}</h5>
+          </Row>
+          <Col span={12}>
+
+            <Row>
+              <Col span={24}>
+                {/* <div ref={mapContainerRef} className='map-container' />
               <Slider
                 min={1}
                 max={4}
@@ -153,47 +244,42 @@ const ProfilePage = () => {
                 value={typeof inputValue === 'number' ? inputValue : 0}
                 style={{width: '500px'}}
               /> */}
-              <Map updateMapState={updateMapState}></Map>
-              
-              
-            </Col>
-          </Row>
-          
-          
-        </Col>
+                <Map updateMapState={updateMapState}></Map>
+
+
+              </Col>
+            </Row>
+
+
+          </Col>
         </Card>
 
         <Col span={12}>
           <Row>
-          <Card title='Charts'
-          style={{ top:"100px", left: '100px', height: '600px'}}>
-            <Row>
-              <Col span={8}>
-                <EChartsReact option={chartOptions[0]} style={{width:'250px', height:'250px', bottom: '40px'}}/>
-              </Col>
-              <Col span={8}>
-              <EChartsReact option={chartOptions[2]} style={{width:'250px',  height:'250px', bottom: '40px'}}/>
-              </Col>
-              <Col span={8}>
-              <EChartsReact option={chartOptions[0]} style={{width:'250px',  height:'250px', bottom: '40px'}}/>
-              </Col>
-            </Row>
+            <Card title='Charts'
+              style={{ top: "100px", left: '100px', height: '600px' }}>
               <Row>
-              <Col span={8}>
-              <EChartsReact option={chartOptions[1]} style={{width:'250px',  height:'250px', bottom: '40px'}}/>
-              </Col>
-              <Col span={8}>
-              <EChartsReact option={chartOptions[0]} style={{width:'250px',   height:'250px', bottom: '40px'}}/>
-              </Col>
-              <Col span={8}>
-              <BarChart style={{ bottom: '40px'}}/>
-              </Col>
+                <Col span={8}>
+                  <EChartsReact option={EmpChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} />
+                </Col>
+                <Col span={8}>
+                  <EChartsReact option={VoteChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} />
+                </Col>
+                <Col span={8}>
+                  <EChartsReact option={GDPChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} />
+                </Col>
               </Row>
-              </Card>
+              <Row>
+
+                <Col span={24}>
+                  <BarChart style={{ bottom: '40px' }} />
+                </Col>
+              </Row>
+            </Card>
           </Row>
         </Col>
       </Row>
-      
+
     </div>
   );
 };
