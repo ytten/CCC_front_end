@@ -31,6 +31,7 @@ const ProfilePage = () => {
   // const POPurl = 'http://localhost:8080/api/population/v1/all'
   // const MIGurl = 'http://localhost:8080/api/migration/v1/all'
   // const voteurl = 'http://localhost:8080/api/vote/v1/all'
+  var emp = document.getElementById('emp')
   const [emp_rate, setEmpstate] = useState([])
   const [vote, setVotestate] = useState([])
   const [GDP, setGDPstate] = useState([])
@@ -200,23 +201,6 @@ const ProfilePage = () => {
     }
   }
 
-  useEffect(() => {
-    if (typeof localStorage !== 'undefined') {
-      var savedState = localStorage.getItem('MapState');
-      var currentstate = JSON.parse(savedState);
-      console.log('current state: ', currentstate.toLowerCase());
-      setCurrentstate(currentstate.toLowerCase())
-      updateMapState(currentstate)
-      // if currentstate changes, fetch wordcloud data
-      if (currentstate != '') {
-        axios.get('http://localhost:8080/api/employment/2018/v1/all', {
-        }).then(res => {
-          console.log('api data state: ', res.data.data)
-          setData(res.data.currentstate)
-        })
-      }
-    }
-  }, [statename])
 
   const updateMapState = (newState) => {
     setStatename(newState);
@@ -239,7 +223,10 @@ const ProfilePage = () => {
           ]
           console.log(input)
           if (input.length !== 0) {
+            
             setEmpstate(input)
+            emp.forceUpdate()
+
           }
         }
       })
@@ -338,10 +325,11 @@ const ProfilePage = () => {
         ]
         console.log('gdp ',gdp)
         if (input.length !== 0) {
+          
           setGDPstate(input)
         }
       })
-}, [])
+}, [emp])
     
   return (
 
@@ -381,7 +369,7 @@ const ProfilePage = () => {
               style={{ top: "100px", left: '100px', height: '600px' }}>
               <Row>
                 <Col span={8}>
-                  <EChartsReact option={EmpChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} />
+                  <EChartsReact id='emp' option={EmpChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} />
                 </Col>
                 <Col span={8}>
                   <EChartsReact option={VoteChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} />
