@@ -116,7 +116,7 @@ const Map = ({updateMapState}) => {
         // console.log(test_data)
         const map = new mapboxgl.Map({
           container: mapContainerRef.current,
-          style: 'mapbox://styles/ytten/clhujlbwd006601pvecwh9d76',
+          style: 'mapbox://styles/ytten/clhz05dfo003t01rbcl3z7oj9',
           center: [134, -25],
           zoom: 3,
           minZoom: 3,
@@ -210,21 +210,26 @@ const Map = ({updateMapState}) => {
       };
       
     return(
-    <div>
+      <div>
+        <Legend active={active} stops={active.stops} />
         <div ref={mapContainerRef} className='map-container' />
+
         {/* <Map/>  */}
         {/* <Wordcloud statename={statename}/> */}
-              <Slider
+              {/* <Slider
                 min={1}
                 max={24}
                 onChange={onChange}
                 value={typeof inputValue === 'number' ? inputValue : 0}
                 style={{width: '500px'}}
-              />
-        <Card 
-        style={{top:'370px', height:'70px', width:'240px'}}>
-        {/* <Legend active={active} stops={active.stops} /> */}
-        </Card>
+              /> */}
+        {/* <Card 
+          style={{ top: '370px', height: '70px', width: '440px' }}>
+ 
+
+
+        </Card> */}
+
     </div>
     
 

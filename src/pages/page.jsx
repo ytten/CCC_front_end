@@ -10,6 +10,7 @@ import EChartsReact from "echarts-for-react";
 import BarChart from '../component/barChart';
 import Map from '../component/map'
 import axios from 'axios'
+import MyComponent from '../component/mycomp';
 // import "./styles.css";
 
 const states = {
@@ -31,7 +32,7 @@ const ProfilePage = () => {
   // const POPurl = 'http://localhost:8080/api/population/v1/all'
   // const MIGurl = 'http://localhost:8080/api/migration/v1/all'
   // const voteurl = 'http://localhost:8080/api/vote/v1/all'
-  var emp = document.getElementById('emp')
+  // var emp = document.getElementById('emp')
   const [emp_rate, setEmpstate] = useState([])
   const [vote, setVotestate] = useState([])
   const [GDP, setGDPstate] = useState([])
@@ -40,6 +41,7 @@ const ProfilePage = () => {
   const [data, setData] = useState([]);
   const [salary, setSalary] = useState([]);
   const [migration, setMigration] = useState([])
+  var tick = 0
 
   const EmpChartSetup = {
     title: {
@@ -54,7 +56,7 @@ const ProfilePage = () => {
     series: [
       {
         data: emp_rate,
-        name: "Access From",
+        name: "Employment Rate",
         type: "pie",
         radius: "60%",
         label: null,
@@ -82,7 +84,7 @@ const ProfilePage = () => {
     series: [
       {
         data: GDP,
-        name: "Access From",
+        name: "GDP",
         type: "pie",
         radius: "60%",
         label: [],
@@ -209,6 +211,7 @@ const ProfilePage = () => {
   var input = []
 
   useEffect(() => {
+    tick+=1
     axios.get('http://localhost:8080/api/employment/2018/v1/all')
       .then(res => {
         // var index = states.indexOf(currentstate)
@@ -225,7 +228,17 @@ const ProfilePage = () => {
           if (input.length !== 0) {
             
             setEmpstate(input)
-            emp.forceUpdate()
+            if (tick !== 1) {
+              
+              setTimeout(() => {
+                const emp = document.getElementById("emp")
+                console.log(emp)
+                // $("#emp").load(window.location.href + " #emp" );
+              }, 2000)
+              
+              
+            }
+           
 
           }
         }
@@ -329,7 +342,7 @@ const ProfilePage = () => {
           setGDPstate(input)
         }
       })
-}, [emp])
+}, [])
     
   return (
 
@@ -337,7 +350,7 @@ const ProfilePage = () => {
 
       <Row>
         <Card title='Map'
-          style={{ top: '100px', left: '50px', height: '600px' }}>
+          style={{ top: '100px', left: '50px', height: '700px' , width: "600px"}}>
           <Row>
             <h5>{statename}</h5>
           </Row>
@@ -366,10 +379,12 @@ const ProfilePage = () => {
         <Col span={12}>
           <Row>
             <Card title='Charts'
-              style={{ top: "100px", left: '100px', height: '600px' }}>
+              style={{ top: "100px", left: '100px', height: '700px' }}>
               <Row>
                 <Col span={8}>
-                  <EChartsReact id='emp' option={EmpChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} />
+                    {/* <MyComponent option={EmpChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} /> */}
+                    <EChartsReact  option={EmpChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} />
+
                 </Col>
                 <Col span={8}>
                   <EChartsReact option={VoteChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} />
