@@ -168,7 +168,7 @@ const ProfilePage = () => {
 
   const MigrationChartSetup = {
     title: {
-      text: "Net Overseas Migration",
+      text: "Overseas Migration",
       // subtext: "Fake Data",
       left: "center",
       top: "bottom"
@@ -417,7 +417,7 @@ const ProfilePage = () => {
         <Col span={12}>
           <Row>
             <Card title='Charts'
-              style={{ top: "100px", left: '100px', height: '700px' }}>
+              style={{ top: "100px", left: '140px', height: '700px' }}>
               <Row>
                 <Col span={8}>
                     {/* <MyComponent option={EmpChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} /> */}
@@ -433,11 +433,11 @@ const ProfilePage = () => {
               </Row>
               <Row>
 
-                <Col span={9}>
-                  <EChartsReact option={WeeklySalarySetup} style={{ width: '300px', height: '250px', bottom: '40px' }} />
+                <Col span={13}>
+                  <EChartsReact option={WeeklySalarySetup} style={{ left:'45px', width: '330px', height: '250px', bottom: '40px', top:'50px'}} />
                 </Col>
-                <Col span={8}>
-                  <EChartsReact option={MigrationChartSetup} style={{ width: '200px', height: '250px', bottom: '40px' }} />
+                <Col span={11}>
+                  <EChartsReact option={MigrationChartSetup} style={{ left:'5px',width: '330px', height: '250px', bottom: '40px',top:'50px' }} />
                 </Col>
               </Row>
             </Card>
