@@ -116,7 +116,7 @@ const Map = ({updateMapState}) => {
         // console.log(test_data)
         const map = new mapboxgl.Map({
           container: mapContainerRef.current,
-          style: 'mapbox://styles/ytten/clhujlbwd006601pvecwh9d76',
+          style: 'mapbox://styles/ytten/clhz05dfo003t01rbcl3z7oj9',
           center: [134, -25],
           zoom: 3,
           minZoom: 3,
@@ -130,9 +130,9 @@ const Map = ({updateMapState}) => {
           map.getCanvas().style.cursor = 'pointer';
           const statename = e.features['0']['properties']['STATE_NAME']
           localStorage.setItem('MapState', JSON.stringify(statename));
+          console.log(statename)
           setStatename(statename);
-          updateMapState(statename);
- // Invoke callback function to update parent state
+          updateMapState(statename); // Invoke callback function to update parent state
 
         //   console.log('state name: ', e)
           const ALP = e.features['0']['properties']['sentiment']
@@ -146,8 +146,8 @@ const Map = ({updateMapState}) => {
               .setLngLat(map.getCenter())
               // .setText(value)
               // .setText(state_name)
-              .setHTML('<p>Name: ' + statename + '</p>' +
-                '<p>Sentiment: ' + ALP + '</p>'  )
+              .setHTML('<p>' + statename + '</p>' +
+                '<p>Highest Support Rate: ' + LPA + '</p>'  )
                 // '<p>Sentiment: ' + LPA + '</p>'+
                 // '<p>Sentiment: ' + NAP + '</p>'+
                 // '<p>Sentiment: ' + NGP + '</p>')
@@ -203,44 +203,33 @@ const Map = ({updateMapState}) => {
 
       const onChange = (newValue) => {
         // setPie(pie_options[newValue - 1])
-        var dateTime = newValue -12
-        if(dateTime >= 0){
-          if(dateTime >= 10){
-            dateTime = '2023-' + dateTime
-          }else{
-            dateTime = '2023-0' + dateTime
-          }
-        }else{
-          if(dateTime >= 0){
-            if(dateTime >= 10){
-              dateTime = '2022-' + dateTime
-            }else{
-              dateTime = '2022-0' + dateTime
-            }
-          }
-        }
-        axios.get('http://localhost:8080/api/twitter/v1/party/sentiment')
+        axios.get()
         setInputValue(newValue);
         setActive(options[newValue - 1])
         
       };
       
     return(
-    <div>
+      <div>
+        <Legend active={active} stops={active.stops} />
         <div ref={mapContainerRef} className='map-container' />
+
         {/* <Map/>  */}
         {/* <Wordcloud statename={statename}/> */}
-              <Slider
+              {/* <Slider
                 min={1}
                 max={24}
                 onChange={onChange}
                 value={typeof inputValue === 'number' ? inputValue : 0}
                 style={{width: '500px'}}
-              />
-        <Card 
-        style={{top:'370px', height:'70px', width:'240px'}}>
-        {/* <Legend active={active} stops={active.stops} /> */}
-        </Card>
+              /> */}
+        {/* <Card 
+          style={{ top: '370px', height: '70px', width: '440px' }}>
+ 
+
+
+        </Card> */}
+
     </div>
     
 

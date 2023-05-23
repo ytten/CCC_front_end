@@ -8,7 +8,7 @@
       "STATE_CODE": "1",
       "STATE_NAME": "New South Wales",
       "sentiment": 1.2,
-      "sentiment2": 87,
+      "sentiment2": 15,
       "sentiment3": 1.2,
       "sentiment4": 87
     },
@@ -26,7 +26,7 @@
       "STATE_CODE": "2",
       "STATE_NAME": "Victoria",
       "sentiment":2,
-      "sentiment2": 21
+      "sentiment2": 6
     },
     "geometry": {
       "type": "MultiPolygon",
@@ -41,7 +41,8 @@
     "properties": {
       "STATE_CODE": "3",
       "STATE_NAME": "Queensland",
-      "sentiment": 5
+      "sentiment": 5,
+      "sentiment2": 5
     },
     "geometry": {
       "type": "MultiPolygon",
@@ -57,7 +58,7 @@
       "STATE_CODE": "4",
       "STATE_NAME": "South Australia",
       "sentiment": 10,
-      "sentiment2": 99
+      "sentiment2": 19
     },
     "geometry": {
       "type": "MultiPolygon",
@@ -73,7 +74,7 @@
       "STATE_CODE": "5",
       "STATE_NAME": "Western Australia",
       "sentiment": 12,
-      "sentiment2": 21
+      "sentiment2": 9
     },
     "geometry": {
       "type": "MultiPolygon",
@@ -89,7 +90,7 @@
       "STATE_CODE": "6",
       "STATE_NAME": "Tasmania",
       "sentiment": 43,
-      "sentiment2": 3
+      "sentiment2": 9
     },
     "geometry": {
       "type": "MultiPolygon",
@@ -105,7 +106,7 @@
       "STATE_CODE": "7",
       "STATE_NAME": "Northern Territory",
       "sentiment": 19,
-      "sentiment2": 91
+      "sentiment2": 6
     },
     "geometry": {
       "type": "MultiPolygon",
@@ -121,7 +122,7 @@
       "STATE_CODE": "8",
       "STATE_NAME": "Australian Capital Territory",
       "sentiment": 21,
-      "sentiment2": 12
+      "sentiment2": 8
     },
     "geometry": {
       "type": "Polygon",
