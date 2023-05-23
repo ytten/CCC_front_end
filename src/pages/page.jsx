@@ -11,16 +11,17 @@ import BarChart from '../component/barChart';
 import Map from '../component/map'
 import axios from 'axios'
 import MyComponent from '../component/mycomp';
+import { map, tail, times, uniq , cloneDeep, clone} from 'lodash';
 // import "./styles.css";
 
 const states = {
-  '0': 'New South Wales',
-  '1': 'Northern Territory',
-  '2': 'Queensland',
-  '3': 'South Australia',
-  '4': 'Tasmania',
-  '5': 'Victoria',
-  '6': 'Western Australia'
+  'New South Wales': 0,
+  'Northern Territory':1,
+  'Queensland':2,
+  'South Australia':3,
+  'Tasmania':4,
+  'Victoria':5,
+  'Western Australia':6
 }
 
 mapboxgl.accessToken =
@@ -28,22 +29,7 @@ mapboxgl.accessToken =
 
 
 const ProfilePage = () => {
-  // const GDPurl = 'http://localhost:8080/api/gdp/v1/all'
-  // const POPurl = 'http://localhost:8080/api/population/v1/all'
-  // const MIGurl = 'http://localhost:8080/api/migration/v1/all'
-  // const voteurl = 'http://localhost:8080/api/vote/v1/all'
-  // var emp = document.getElementById('emp')
-  const [emp_rate, setEmpstate] = useState([])
-  const [vote, setVotestate] = useState([])
-  const [GDP, setGDPstate] = useState([])
-  const [statename, setStatename] = useState(null)
-  const [currentstate, setCurrentstate] = useState('');
-  const [data, setData] = useState([]);
-  const [salary, setSalary] = useState([]);
-  const [migration, setMigration] = useState([])
-  var tick = 0
-
-  const EmpChartSetup = {
+  const DEFAULT_OPTION = {
     title: {
       text: "Empolyment rate",
       // subtext: "Fake Data",
@@ -55,7 +41,7 @@ const ProfilePage = () => {
     },
     series: [
       {
-        data: emp_rate,
+        data: [],
         name: "Employment Rate",
         type: "pie",
         radius: "60%",
@@ -71,6 +57,58 @@ const ProfilePage = () => {
 
     ]
   }
+
+
+
+
+
+  // const EmpChartSetup = {
+  //   title: {
+  //     text: "Empolyment rate",
+  //     // subtext: "Fake Data",
+  //     left: "center",
+  //     top: "bottom"
+  //   },
+  //   tooltip: {
+  //     trigger: "item"
+  //   },
+  //   series: [
+  //     {
+  //       data: emp_rate,
+  //       name: "Employment Rate",
+  //       type: "pie",
+  //       radius: "60%",
+  //       label: null,
+  //       emphasis: {
+  //         itemStyle: {
+  //           shadowBlur: 10,
+  //           shadowOffsetX: 0,
+  //           shadowColor: "rgba(0, 0, 0, 0.5)"
+  //         }
+  //       }
+  //     },
+
+  //   ]
+  // }
+  // const GDPurl = 'http://localhost:8080/api/gdp/v1/all'
+  // const POPurl = 'http://localhost:8080/api/population/v1/all'
+  // const MIGurl = 'http://localhost:8080/api/migration/v1/all'
+  // const voteurl = 'http://localhost:8080/api/vote/v1/all'
+  // var emp = document.getElementById('emp')
+  const [emp_rate, setEmpstate] = useState([])
+  const [vote, setVotestate] = useState([])
+  const [GDP, setGDPstate] = useState([])
+  const [statename, setStatename] = useState(null)
+  const [currentstate, setCurrentstate] = useState('');
+  const [data, setData] = useState([]);
+  const [salary, setSalary] = useState([]);
+  const [migration, setMigration] = useState([])
+  const [optionEmp, setOptionEmp] = useState(DEFAULT_OPTION);
+  const [optionGDP, setOptionGDP] = useState(DEFAULT_OPTION)
+
+  var tick = 0
+
+  
   const GDPChartSetup = {
     title: {
       text: "GDP Composition",
@@ -208,46 +246,42 @@ const ProfilePage = () => {
     setStatename(newState);
   }
 
-  var input = []
+  var emp_input = []
+  var gdp_input = []
+  var sal_input = []
+  var vote_input = []
 
   useEffect(() => {
-    tick+=1
     axios.get('http://localhost:8080/api/employment/2018/v1/all')
       .then(res => {
-        // var index = states.indexOf(currentstate)
-        var temp = res.data.data[0]
+        var index = states[statename]
+        var temp = res.data.data[index]
         var unknown = 100 - temp['employment_rate'] - temp['unemployment_rate']
-        if (typeof input !== 'undefined') {
+        if (typeof emp_input !== 'undefined') {
 
-          input = [
-            { name: states[0] + 'Employment_rate', value: temp['employment_rate'] },
-            { name: states[0] + 'unemployment_rate', value: temp['unemployment_rate'] },
+          emp_input = [
+            { name: states[0] + 'Employment Rate', value: temp['employment_rate'] },
+            { name: states[0] + 'unemployment Rate', value: temp['unemployment_rate'] },
             { name: states[0] + 'Unknown', value: unknown }
           ]
-          console.log(input)
-          if (input.length !== 0) {
+          console.log('employment', emp_input)
+          console.log('current state', statename)
+          if (emp_input.length !== 0) {
+            setTimeout(() => {
+              var newoption = cloneDeep(optionEmp)
+              newoption.series[0]['data'] = emp_input
+              setOptionEmp(newoption)
+            }, 1000);
             
-            setEmpstate(input)
-            if (tick !== 1) {
-              
-              setTimeout(() => {
-                const emp = document.getElementById("emp")
-                console.log(emp)
-                // $("#emp").load(window.location.href + " #emp" );
-              }, 2000)
-              
-              
-            }
-           
-
           }
         }
-      })
+        })
+
 
     axios.get('http://localhost:8080/api/vote/v1/2016')
       .then(res => {
-        var vote = res.data.data[0]
-        input = [
+        var vote_input = res.data.data[0]
+        vote_input = [
           {
             name: 'Australian Labor Party Percentage', value: vote['tpp_australian_labor_party_percentage'], itemStyle: { color: '#eb7f7f' },
           },
@@ -255,15 +289,15 @@ const ProfilePage = () => {
             name: 'Liberal National Coalition Percentage', value: vote['tpp_liberal_national_coalition_percentage'], itemStyle: { color: '#78aede' },
           },
         ]
-        console.log('vote', vote)
-        if (input.length !== 0) {
-          setVotestate(input)
+        console.log('vote', vote_input)
+        if (vote_input.length !== 0) {
+          setVotestate(vote_input)
         }
       }
       );
     axios.get('http://localhost:8080/api/agesalary/2016/v1/all').then(res => {
       var salary_all = res.data.data[0]
-      input = [
+      sal_input = [
         {
           name: "1750 to 1999", value: salary_all['tot_1750_1999_tot']
         },
@@ -275,8 +309,9 @@ const ProfilePage = () => {
         },
       ]
       console.log('salary ', salary_all)
-      if (input.length !== 0) {
-        setSalary(input)
+      if (sal_input.length !== 0) {
+        
+        setSalary(sal_input)
       }
     })
       axios.get('http://localhost:8080/api/migration/v1/all').then(res => {
@@ -309,7 +344,7 @@ const ProfilePage = () => {
       axios.get('http://localhost:8080/api/gdp/v1/all')
       .then(res=> {
         var gdp = res.data.data[0]
-        input = [
+        gdp_input = [
           {
             name: 'ACT', value: gdp['ACT']
           },
@@ -337,12 +372,15 @@ const ProfilePage = () => {
 
         ]
         console.log('gdp ',gdp)
-        if (input.length !== 0) {
-          
-          setGDPstate(input)
+        if (gdp_input.length !== 0) {
+          setTimeout(() => {
+            var newoption = cloneDeep(optionGDP)
+            newoption.series[0]['data'] = gdp_input
+            setGDPstate(gdp_input)
+          }, 1000)
         }
       })
-}, [])
+}, [statename])
     
   return (
 
@@ -383,7 +421,7 @@ const ProfilePage = () => {
               <Row>
                 <Col span={8}>
                     {/* <MyComponent option={EmpChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} /> */}
-                    <EChartsReact  option={EmpChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} />
+                    <EChartsReact option={optionEmp} style={{ width: '250px', height: '250px', bottom: '40px' }} />
 
                 </Col>
                 <Col span={8}>
