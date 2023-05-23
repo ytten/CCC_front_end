@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import mapboxgl from '!mapbox-gl';
 import Legend from '../component/Legend';
 import Optionsfield from '../component/Optionsfield';
 // import '../Component/Map.css';
