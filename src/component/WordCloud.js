@@ -13,7 +13,7 @@ import map from './map'
 // const { createRoot } = ReactDOM;
 // const {  Space, Table, Tag  } = antd;
 
-class Wordcloudl extends React.Component{
+class Wordcloud extends React.Component{
     constructor(props){
         // console.log(props)
         super(props)
@@ -141,9 +141,7 @@ class Wordcloudl extends React.Component{
     handleStateChange = () => {
         const savedState = localStorage.getItem('MapState');
         const currentstate = JSON.parse(savedState);
-        if (currentstate === []){
-            
-        }
+
         if (currentstate !== []){
             this.state.currentstate = currentstate.toLowerCase();
             axios.get('http://localhost:8080/api/twitter/v1/keyword/count', {       
