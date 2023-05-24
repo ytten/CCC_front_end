@@ -133,6 +133,7 @@ const Map = ({updateMapState}) => {
           console.log(statename)
           setStatename(statename);
           updateMapState(statename); // Invoke callback function to update parent state
+          
 
         //   console.log('state name: ', e)
           const ALP = e.features['0']['properties']['sentiment']
@@ -188,7 +189,7 @@ const Map = ({updateMapState}) => {
         });
         // Clean up on unmount
         return () => map.remove();
-      }, []);
+      }, [statename]);
       
       useEffect(() => {
         paint();

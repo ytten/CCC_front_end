@@ -8,8 +8,8 @@ import { Col, InputNumber, Row, Slider, Space, Card } from 'antd';
 import Wordcloud from '../component/WordCloud'
 import EChartsReact from "echarts-for-react";
 import Map from '../component/map'
+import { WordCloud } from '@ant-design/charts';
 // import "./styles.css";
-
 
 
 mapboxgl.accessToken =
@@ -20,25 +20,17 @@ const KeywordPage = () => {
 
   const [statename, setStatename] = useState(null)
   const updateMapState = (newState) => {
+    console.log("Parent Update: ", newState)
     setStatename(newState);
+    
   };
 
+  useEffect(()=>{
+    // window.location.reload();
+  },[statename])
 
   return (
     <div>
-
-      {/* <html>
-      <body> */}
-      {/* </body>
-    </html> */}
-      {/* <Legend active={active} stops={active.stops} /> */}
-      {/* {/* <Optionsfield
-        options={options}
-        property={active.property}
-        changeState={changeState}
-      /> */}
-
-
     <Row>
       <Card title='Map'
       style={{ top: '30px',  left: '50px', height:'600px', width: '600px' }}>
@@ -62,7 +54,8 @@ const KeywordPage = () => {
           style={{ top: '30px', height:'600px', left:'100px', width:'800px' }}>
             
             <Col span={12}>
-                <Wordcloud id='wordcloud'></Wordcloud>
+                <Wordcloud id='wordcloud' statename={statename}></Wordcloud>
+                
             </Col>
             </Card>
           </Row>

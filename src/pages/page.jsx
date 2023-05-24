@@ -251,9 +251,9 @@ const ProfilePage = () => {
         if (typeof temp !== 'undefined') {
           var unknown = 100 - temp['employment_rate'] - temp['unemployment_rate']
           emp_input = [
-            { name: states[0] + 'Employment Rate', value: temp['employment_rate'] },
-            { name: states[0] + 'unemployment Rate', value: temp['unemployment_rate'] },
-            { name: states[0] + 'Unknown', value: unknown }
+            { name: statename + ' Employment Rate', value: temp['employment_rate'] },
+            { name: statename + ' unemployment Rate', value: temp['unemployment_rate'] },
+            { name: statename + ' Unknown', value: unknown }
           ]
           console.log('employment', emp_input)
           console.log('current state', statename)

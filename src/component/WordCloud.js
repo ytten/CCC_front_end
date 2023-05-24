@@ -14,17 +14,32 @@ import map from './map'
 // const {  Space, Table, Tag  } = antd;
 
 class Wordcloudl extends React.Component{
-    state = {
-        selectedWord: '',
-        associatedtweet: [],
-        top3Document: [],
-        currentstate: [],
-        data: [AUdata],
-        myChart: [],
-        documentId: [],
-        stateNames: ['New South Wales', 'Victoria', 'Queensland', 'South Australia', 'Western Australia', 'Tasmania', 'Northern Territory', 'Australian Capital Territory']
+    constructor(props){
+        // console.log(props)
+        super(props)
+        this.state =  {
+            selectedWord: '',
+            associatedtweet: [],
+            top3Document: [],
+            currentstate: [this.props.stateName],
+            data: [AUdata],
+            myChart: [],
+            documentId: [],
+            stateNames: ['New South Wales', 'Victoria', 'Queensland', 'South Australia', 'Western Australia', 'Tasmania', 'Northern Territory', 'Australian Capital Territory'],
+            savedState: null
+          };
+    }
+    
 
-      };
+    componentDidUpdate(prevProps) {
+        // Typical usage (don't forget to compare props):
+        if (this.props.currentstate !== prevProps.stateName) {
+            console.log('aaasdnjakdkjwkejlnj')
+            this.forceUpdate();
+            this.handleStateChange();
+            
+        }
+    }
     componentDidMount() {
         var data = this.state.data
       
@@ -79,18 +94,19 @@ class Wordcloudl extends React.Component{
             return
         }
         const selectedWord = event.target.style.text;
-        const savedState = localStorage.getItem('MapState');
-        const currentstate = JSON.parse(savedState);
+        // const savedState = localStorage.getItem('MapState');
+        const savedState = this.state.currentstate;
+        // const currentstate = JSON.parse(savedState);
         console.log('selectedWord:', selectedWord);
-        console.log('current state: ', currentstate);
+        // console.log('current state: ', currentstate);
         this.state.selectedWord = selectedWord
     
     
-        axios.get('http://localhost:8080/api/twitter/v1/keyword?keyword='+selectedWord, {       
+        axios.get('http://localhost:8080/api/twitter/v1/keyword/by_state?keyword='+selectedWord+'&geo='+savedState, {       
         }).then(res => {
             // console.log('api selected word data: ', res.data.data[0].documentMetricsPairs)
-            const doc = res.data.data[0].documentMetricsPairs;
-            
+            const doc = res.data.data[0]['documentMetricsPairs'];
+            console.log(res.data.data[0]['documentMetricsPairs'])
             if (doc && Array.isArray(doc) && doc.length > 0) {
                 // Iterate over each item in documentMetricsPairs and calculate the sum of public metrics
                 const documentId = doc.map((pair) => pair.documentId) 
@@ -124,8 +140,11 @@ class Wordcloudl extends React.Component{
     handleStateChange = () => {
         const savedState = localStorage.getItem('MapState');
         const currentstate = JSON.parse(savedState);
-        this.state.currentstate = currentstate.toLowerCase();
+        if (currentstate === []){
+            
+        }
         if (currentstate !== []){
+            this.state.currentstate = currentstate.toLowerCase();
             axios.get('http://localhost:8080/api/twitter/v1/keyword/count', {       
             }).then(res => {
                 console.log('111')
@@ -210,8 +229,8 @@ class Wordcloudl extends React.Component{
                 <ul>
                 {associatedtweet.map((tweet, index) => (
                     <li key={index} style={{width: '600px'}}>
-                    <p>Author: {tweet['author_id']}, Posted At: {tweet['geo']}</p>
-                    <p>{tweet['raw_text']}</p>
+                    <p><b>Author: </b>{tweet['author_id']}, <b>Posted At: </b>{tweet['geo'].charAt(0).toUpperCase() + tweet['geo'].slice(1)}, <b>Party: </b>{tweet['party']}</p>
+                    <p><b>Content: </b>{tweet['raw_text']}</p>
                     </li>
                 ))} 
                 </ul>
