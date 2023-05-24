@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import mapboxgl from '!mapbox-gl';
 import Legend from './Legend';
 import Optionsfield from './Optionsfield';
 import './Map.css';
@@ -100,7 +102,7 @@ const Map = ({updateMapState}) => {
       const [active, setActive] = useState(options[0]);
       const [inputValue, setInputValue] = useState(0);
       const [map, setMap] = useState(null);
-      const [statename, setStatename] = useState([])
+      const [statename, setStatename] = useState(['Victoria'])
       // 
     
       const popup = new mapboxgl.Popup({

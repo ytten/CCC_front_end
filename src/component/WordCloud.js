@@ -41,7 +41,8 @@ class Wordcloudl extends React.Component{
         }
     }
     componentDidMount() {
-        var data = this.state.data
+
+      var data = this.state.data
       
       var myChart = echarts.init(document.getElementById('wordcloudl'));
          
@@ -267,5 +268,5 @@ class Wordcloudl extends React.Component{
       )
   }
 }
-export default Wordcloudl;
+export default Wordcloud;
 

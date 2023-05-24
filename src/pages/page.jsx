@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import mapboxgl from '!mapbox-gl';
 import Legend from '../component/Legend';
 import Optionsfield from '../component/Optionsfield';
 // import '../Component/Map.css';
@@ -93,7 +94,7 @@ const ProfilePage = () => {
   const [emp_rate, setEmpstate] = useState([])
   const [vote, setVotestate] = useState([])
   const [GDP, setGDPstate] = useState([])
-  const [statename, setStatename] = useState(null)
+  const [statename, setStatename] = useState('Victoria')
   const [currentstate, setCurrentstate] = useState('');
   const [data, setData] = useState([]);
   const [salary, setSalary] = useState([]);
