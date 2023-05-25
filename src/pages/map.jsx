@@ -150,7 +150,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
-      style: 'mapbox://styles/ytten/clhvk84l100fl01rf7a5y52vb',
+      style: 'mapbox://styles/ytten/cli371pqe00k201rf9rey8bsg',
       center: [134, -25],
       zoom: 3,
       minZoom: 3,

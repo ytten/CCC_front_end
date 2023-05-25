@@ -31,7 +31,7 @@ const paint_property = [
   30.000001,
   "hsl(69, 54%, 69%)",
   40,
-  "hsl(119, 59%, 70%)"
+  "hsl(30, 100%, 50%)"
 ]
 var states = ['new%20south%20wales', 'victoria', 'queensland', 'western%20australia', 'south%20australia', 'tasmania', 'australian%20capital%20territory', 'northern%20territory'];
 
@@ -118,7 +118,7 @@ const Map = ({updateMapState}) => {
         // console.log(test_data)
         const map = new mapboxgl.Map({
           container: mapContainerRef.current,
-          style: 'mapbox://styles/ytten/clhz05dfo003t01rbcl3z7oj9',
+          style: 'mapbox://styles/ytten/cli37qjl300w001r86iwzh84z',
           center: [134, -25],
           zoom: 3,
           minZoom: 3,
@@ -138,19 +138,17 @@ const Map = ({updateMapState}) => {
           
 
         //   console.log('state name: ', e)
-          const ALP = e.features['0']['properties']['sentiment']
-          const LPA = e.features['0']['properties']['sentiment2']
-          const NAP = e.features['0']['properties']['sentiment3']
-          const NGP = e.features['0']['properties']['sentiment4']
+          const sentiment = e.features['0']['properties']['sentiment2']
+
           // && typeof LPA !== "undefined" && typeof NAP !== "undefined" && typeof NGP !== "undefined" 
           
-          if (typeof ALP !== "undefined" ) {
+          if (typeof sentiment !== "undefined" ) {
             popup
               .setLngLat(map.getCenter())
               // .setText(value)
               // .setText(state_name)
               .setHTML('<p>' + statename + '</p>' +
-                '<p>Highest Support Rate: ' + LPA + '</p>'  )
+                '<p>Highest Support Rate: ' + sentiment + '</p>'  )
                 // '<p>Sentiment: ' + LPA + '</p>'+
                 // '<p>Sentiment: ' + NAP + '</p>'+
                 // '<p>Sentiment: ' + NGP + '</p>')

@@ -7,10 +7,7 @@
     "properties": {
       "STATE_CODE": "1",
       "STATE_NAME": "New South Wales",
-      "sentiment": 1.2,
-      "sentiment2": 15,
-      "sentiment3": 1.2,
-      "sentiment4": 87
+      "sentiment2": 8
     },
     "geometry": {
       "type": "MultiPolygon",
@@ -41,8 +38,7 @@
     "properties": {
       "STATE_CODE": "3",
       "STATE_NAME": "Queensland",
-      "sentiment": 5,
-      "sentiment2": 5
+      "sentiment2": 10
     },
     "geometry": {
       "type": "MultiPolygon",
@@ -57,8 +53,7 @@
     "properties": {
       "STATE_CODE": "4",
       "STATE_NAME": "South Australia",
-      "sentiment": 10,
-      "sentiment2": 19
+      "sentiment2": 38
     },
     "geometry": {
       "type": "MultiPolygon",
@@ -89,8 +84,7 @@
     "properties": {
       "STATE_CODE": "6",
       "STATE_NAME": "Tasmania",
-      "sentiment": 43,
-      "sentiment2": 9
+      "sentiment2": 19
     },
     "geometry": {
       "type": "MultiPolygon",
@@ -105,7 +99,6 @@
     "properties": {
       "STATE_CODE": "7",
       "STATE_NAME": "Northern Territory",
-      "sentiment": 19,
       "sentiment2": 6
     },
     "geometry": {
