@@ -103,7 +103,7 @@ const ProfilePage = () => {
     
   const GDPChartSetup = {
     title: {
-      text: "GDP Composition",
+      text: "GDP Comparison",
       // subtext: "Fake Data",
       left: "center",
       top: "bottom"

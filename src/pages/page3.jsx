@@ -122,7 +122,7 @@ const ComparisonPage = () => {
               style={{ top: "100px",left:'400px'}}>
               <Row>
                <Col span={24}>
-                    <WordcloudM id='wordcloudM'></WordcloudM>
+                    <WordcloudM id='wordcloudM' style={{top:'-100px'}}></WordcloudM>
                 </Col>
               </Row>
             </Card>
