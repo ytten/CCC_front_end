@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import mapboxgl from '!mapbox-gl';
 import Legend from '../component/Legend';
 import Optionsfield from '../component/Optionsfield';
 // import '../Component/Map.css';
@@ -93,7 +94,7 @@ const ProfilePage = () => {
   const [emp_rate, setEmpstate] = useState([])
   const [vote, setVotestate] = useState([])
   const [GDP, setGDPstate] = useState([])
-  const [statename, setStatename] = useState(null)
+  const [statename, setStatename] = useState('Victoria')
   const [currentstate, setCurrentstate] = useState('');
   const [data, setData] = useState([]);
   const [salary, setSalary] = useState([]);
@@ -251,9 +252,9 @@ const ProfilePage = () => {
         if (typeof temp !== 'undefined') {
           var unknown = 100 - temp['employment_rate'] - temp['unemployment_rate']
           emp_input = [
-            { name: states[0] + 'Employment Rate', value: temp['employment_rate'] },
-            { name: states[0] + 'unemployment Rate', value: temp['unemployment_rate'] },
-            { name: states[0] + 'Unknown', value: unknown }
+            { name: statename + ' Employment Rate', value: temp['employment_rate'] },
+            { name: statename + ' unemployment Rate', value: temp['unemployment_rate'] },
+            { name: statename + ' Unknown', value: unknown }
           ]
           console.log('employment', emp_input)
           console.log('current state', statename)
