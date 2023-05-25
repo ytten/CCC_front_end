@@ -14,6 +14,7 @@ import axios from 'axios'
 import { map, tail, times, uniq , cloneDeep, clone} from 'lodash';
 // import "./styles.css";
 
+
 const states = {
   'New South Wales': 0,
   'Northern Territory':1,
@@ -100,6 +101,7 @@ const ProfilePage = () => {
   const [salary, setSalary] = useState([]);
   const [migration, setMigration] = useState([])
   const [optionEmp, setOptionEmp] = useState(DEFAULT_OPTION);
+  const [sentiment, setSentiment] = useState()
     
   const GDPChartSetup = {
     title: {
@@ -232,6 +234,43 @@ const ProfilePage = () => {
       trigger: "axis"
     }
   }
+  const SentimentChartSetup = {
+    title: {
+      text: "Weighted Sentiment",
+      // subtext: "Fake Data",
+      left: "center",
+      top: "bottom"
+    },
+    xAxis: {
+      type: "category",
+      data: ["ALP", "LPA","GREENS","NPA"],
+      axisLabel: {
+        textStyle: {
+          fontSize: 12, // Set the font size for x-axis labels
+        },
+      },
+    },
+    yAxis: {
+      type: "value",
+      axisLabel: {
+        textStyle: {
+          fontSize: 7, // Set the font size for x-axis labels
+        },
+      },
+
+    },
+
+    series: [
+      {
+        data: sentiment,
+        type: "bar",
+        smooth: true
+      }
+    ],
+    tooltip: {
+      trigger: "axis"
+    }
+  }
 
 
   const updateMapState = (newState) => {
@@ -312,6 +351,48 @@ const ProfilePage = () => {
         }
       }
     })
+    axios.get('http://localhost:8080/api/twitter/v1/party/sentiment')
+    .then(res=>{
+      var option = {}
+      
+      var sentiment = []
+      for (let i = 212; i <= 247; i++) {
+        sentiment.push(res.data.data[i])
+      } 
+      
+      sentiment.forEach(item => {
+        const { state, party, sentiment, ...rest } = item;
+        if (party == "ALP") {
+          var color = '#eb7f7f'
+        }
+        if (party == "LPA") {
+          var color = '#cedb85'
+        }
+        if (party == "NPA") {
+          var color = '#ff8000'
+        }
+        if (party == "GREENS") {
+          var color = '#78aede'
+        }
+        
+
+          
+          
+          
+          
+          
+        if (option[state]) {
+          option[state].push({'name':party,'value':sentiment,itemStyle:{color:color}});
+        } else {
+          option[state] = [{'name':party, 'value':sentiment,itemStyle:{color:color}}];
+        }
+      })
+
+
+      console.log('test',option[statename.toLowerCase()])
+      setSentiment(option[statename.toLowerCase()])
+      })
+
       axios.get('http://localhost:8080/api/migration/v1/all').then(res => {
         var index = state_code[state_to_code[statename]]
         var migration_all = res.data.data
@@ -421,25 +502,31 @@ const ProfilePage = () => {
             <Card title='Charts'
               style={{ top: "100px", left: '100px', height: '700px' }}>
               <Row>
-                <Col span={8}>
+               <Col span={10}>
                     {/* <MyComponent option={EmpChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} /> */}
-                    <EChartsReact option={optionEmp} style={{ width: '250px', height: '250px', bottom: '40px' }} />
+                    <EChartsReact option={SentimentChartSetup} style={{ width: '340px', height: '250px', bottom: '40px' }} />
 
                 </Col>
+
                 <Col span={8}>
                   <EChartsReact option={VoteChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} />
                 </Col>
-                <Col span={8}>
-                  <EChartsReact option={GDPChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} />
+                <Col span={6}>
+                  <EChartsReact option={GDPChartSetup} style={{ width: '180px', height: '250px', bottom: '40px' }} />
                 </Col>
               </Row>
               <Row>
 
-                <Col span={9}>
-                  <EChartsReact option={WeeklySalarySetup} style={{ width: '300px', height: '250px', bottom: '40px' }} />
+                <Col span={10}>
+                  <EChartsReact option={WeeklySalarySetup} style={{ width: '320px', height: '250px', bottom: '40px' }} />
                 </Col>
                 <Col span={8}>
-                  <EChartsReact option={MigrationChartSetup} style={{ width: '200px', height: '250px', bottom: '40px' }} />
+                  <EChartsReact option={MigrationChartSetup} style={{ width: '300px', height: '250px', bottom: '40px' }} />
+                </Col>
+                <Col span={6}>
+                    {/* <MyComponent option={EmpChartSetup} style={{ width: '250px', height: '250px', bottom: '40px' }} /> */}
+                    <EChartsReact option={optionEmp} style={{ width: '180px', height: '250px', bottom: '40px' }} />
+
                 </Col>
               </Row>
             </Card>

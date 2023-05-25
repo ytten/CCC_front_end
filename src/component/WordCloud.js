@@ -247,7 +247,7 @@ class Wordcloud extends React.Component{
 
       return(
           <div>
-              <div id='wordcloudl' style={{ height: '250px',top: '-20px', width: '600px'}} onClick={this.handleStateChange}> </div>
+              <div id='wordcloudl' style={{ height: '250px',top: '-20px', width: '700px'}} onClick={this.handleStateChange}> </div>
               <div>
                 <h3>Tweets for {this.state.selectedWord}</h3>
                 {this.rendertweet()} 

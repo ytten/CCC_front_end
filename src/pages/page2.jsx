@@ -30,7 +30,7 @@ const KeywordPage = () => {
     <div>
     <Row>
       <Card title='Map'
-      style={{ top: '30px',  left: '50px', height:'600px', width: '600px' }}>
+      style={{ top: '30px',  left: '50px', height:'700px', width: '600px' }}>
         <Row>
           <h5>{statename}</h5>
         </Row>
@@ -48,7 +48,7 @@ const KeywordPage = () => {
         <Col span={12}>
           <Row>
           <Card title='Word Cloud'
-          style={{ top: '30px', height:'600px', left:'100px', width:'800px' }}>
+          style={{ top: '30px', height:'700px', left:'100px', width:'800px' }}>
             
             <Col span={12}>
                 <Wordcloud id='wordcloud' ref={node}></Wordcloud>
