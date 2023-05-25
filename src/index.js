@@ -6,10 +6,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LayoutPage from "./pages/layout";
 import ProfilePage from "./pages/page";
 import KeywordPage from "./pages/page2";
-import ComparisonPage from './pages/page3';
+// import ComparisonPage from "./pages/page3";
 import {Layout, Menu } from 'antd'
 import './index.css';
 import 'antd/dist/antd.min.css';
+import ComparisonPage from "./pages/page3";
 const { Header, Content, Footer } = Layout;
 
 export default function App() {
@@ -19,9 +20,10 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LayoutPage />}>
           <Route index element={< ProfilePage />} />
-          <Route path="Keyword" element={<KeywordPage />} />    
-          <Route path="ComparisonPage" element={<ComparisonPage />} />
-          
+
+          <Route id ="route-2" path="/Keyword" element={<KeywordPage />} />
+          <Route id="route-3" path="/ComparisonPage" element={<ComparisonPage />} />
+
         </Route>
       </Routes>
     </BrowserRouter>

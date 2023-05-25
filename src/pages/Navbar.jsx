@@ -5,22 +5,22 @@ import { useNavigate } from 'react-router-dom'
 const { Header } = Layout;
 
 function Navbar() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     // <nav>
-      <Header>
+      <Header id='header-1'>
           <Menu
           theme='dark'
           mode="horizontal"
           style={{ height: '100%', borderRight: 0 }}>
-            <Menu.Item key="/" onClick={() => {navigate("/")}}>
+            <Menu.Item id = "menu-item1" key="/" onClick={() => {navigate("/", { replace: true})}}>
                   Profile
             </Menu.Item>
-            <Menu.Item key="/Keyword" onClick={() => { navigate("/Keyword", { replace: true }) }}>
-                  Keyword Anaylsis
+            <Menu.Item id = "menu-item2"  key="/Keyword" onClick={() => { navigate("/Keyword", { replace: true }) }}>
+                  Keyword Analysis
             </Menu.Item>
-            <Menu.Item key="/ComparisonPage" onclick={() => { navigate("/ComparisonPage",  { replace: true })}}>
-                  Twitter vs Mastdon
+            <Menu.Item id = "menu-item3" key="/ComparisonPage" onClick={() => { navigate("/ComparisonPage",  { replace: true })}}>
+                  Twitter vs Mastodon
             </Menu.Item>
           </Menu>
       </Header>

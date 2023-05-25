@@ -100,7 +100,7 @@ const ComparisonPage = () => {
     
   return (
 
-    <div className="body">
+    <div id="123" className="body11">
 
       <Row>
 

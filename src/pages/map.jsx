@@ -5,7 +5,7 @@ import Optionsfield from '../component/Optionsfield';
 import './Map.css';
 import data from '../data.json';
 import { Col, InputNumber, Row, Slider, Space, Card, Layout} from 'antd';
-import Wordcloud from '../component/WordCloud'
+// import Wordcloud from '../component/WordCloud';
 import EChartsReact from "echarts-for-react";
 import BarChart from '../component/barChart';
 // import "./styles.css";
