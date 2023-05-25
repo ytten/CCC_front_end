@@ -163,7 +163,7 @@ class WordcloudT extends React.Component{
 
       return(
           <div>
-              <div id='wordcloudl' style={{ height: '250px',top: '-20px', width: '700px'}} > </div>
+              <div id='wordcloudl' style={{ height: '250px',top: '0px', width: '700px'}} > </div>
           </div>
       )
   }

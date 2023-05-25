@@ -73,7 +73,7 @@ class WordCloudM extends React.Component{
     render () {
         return(
             <div>
-                <div id='wordcloudl' style={{ height: '250px',top: '-20px', width: '700px'}}></div>
+                {/* <div id='wordcloudl' style={{ height: '250px',top: '-20px', width: '700px'}}></div> */}
                 <div id='wordclouda' style={{ height: '250px',top: '-20px', width: '700px'}}></div>
             </div>
         )

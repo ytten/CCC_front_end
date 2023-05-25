@@ -107,7 +107,7 @@ const ComparisonPage = () => {
         <Col span={24}>
           <Row>
             <Card title='Twitter WordCloud'
-              style={{ top: "100px", left:'400px'}}>
+              style={{ top: "20px", left:'400px'}}>
               <Row>
                <Col span={24}>
                     <WordcloudT id='wordcloudT' style={{left:'800px'}}></WordcloudT>
@@ -118,11 +118,11 @@ const ComparisonPage = () => {
         </Col>
         <Col span={24}>
           <Row>
-            <Card title='Mastdon WordCloud'
+            <Card title='Mastodon WordCloud'
               style={{ top: "100px",left:'400px'}}>
               <Row>
                <Col span={24}>
-                    <WordcloudM id='wordcloudM' style={{top:'-100px'}}></WordcloudM>
+                    <WordcloudM id='wordcloudM' style={{top:'100px'}}></WordcloudM>
                 </Col>
               </Row>
             </Card>
