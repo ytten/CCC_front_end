@@ -9,7 +9,7 @@ import AUdata from '../wordcloud_data_au.json'
 // const { createRoot } = ReactDOM;
 // const {  Space, Table, Tag  } = antd;
 
-class Wordcloud extends React.Component{
+class WordcloudT extends React.Component{
     constructor(props){
         // console.log(props)
         super(props)
@@ -168,5 +168,5 @@ class Wordcloud extends React.Component{
       )
   }
 }
-export default Wordcloud;
+export default WordcloudT;
 
