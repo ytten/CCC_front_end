@@ -14,10 +14,13 @@ function Navbar() {
           mode="horizontal"
           style={{ height: '100%', borderRight: 0 }}>
             <Menu.Item key="/" onClick={() => {navigate("/")}}>
-              Profile
+                  Profile
             </Menu.Item>
-        <Menu.Item key="/Keyword" onClick={() => { navigate("/Keyword", { replace: true }) }}>
-              Keyword Anaylsis
+            <Menu.Item key="/Keyword" onClick={() => { navigate("/Keyword", { replace: true }) }}>
+                  Keyword Anaylsis
+            </Menu.Item>
+            <Menu.Item key="/ComparisonPage" onclick={() => { navigate("/ComparisonPage",  { replace: true })}}>
+                  Twitter vs Mastdon
             </Menu.Item>
           </Menu>
       </Header>

@@ -72,6 +72,7 @@ const ProfilePage = () => {
       top: "bottom"
     },
     tooltip: {
+      valueFormatter: (value) => value.toFixed(5),
       trigger: "item"
     },
     series: [
@@ -92,12 +93,9 @@ const ProfilePage = () => {
 
     ]
   }
-  const [emp_rate, setEmpstate] = useState([])
   const [vote, setVotestate] = useState([])
   const [GDP, setGDPstate] = useState([])
   const [statename, setStatename] = useState('Victoria')
-  const [currentstate, setCurrentstate] = useState('');
-  const [data, setData] = useState([]);
   const [salary, setSalary] = useState([]);
   const [migration, setMigration] = useState([])
   const [optionEmp, setOptionEmp] = useState(DEFAULT_OPTION);
@@ -146,6 +144,7 @@ const ProfilePage = () => {
       type: "value"
     },
     tooltip: {
+      valueFormatter: (value) => value.toFixed(5),
       trigger: "item"
     },
     series: [
@@ -156,6 +155,12 @@ const ProfilePage = () => {
       }
     ],
     tooltip: {
+      formatter: function(params) {
+        // if (typeof params !== 'undefined'){
+        var formattedValue = params[0].value.toFixed(5); // Format the first value to five decimal places
+        return formattedValue;
+        // }
+      },
       trigger: "axis"
     }
   }
@@ -194,6 +199,7 @@ const ProfilePage = () => {
       }
     ],
     tooltip: {
+      valueFormatter: (value) => value.toFixed(5),
       trigger: "axis"
     }
   }
@@ -268,6 +274,7 @@ const ProfilePage = () => {
       }
     ],
     tooltip: {
+      valueFormatter: (value) => value.toFixed(5),
       trigger: "axis"
     }
   }
@@ -362,24 +369,19 @@ const ProfilePage = () => {
       
       sentiment.forEach(item => {
         const { state, party, sentiment, ...rest } = item;
+        var color = ''
         if (party == "ALP") {
-          var color = '#eb7f7f'
+          color = '#eb7f7f'
         }
         if (party == "LPA") {
-          var color = '#cedb85'
+          color = '#cedb85'
         }
         if (party == "NPA") {
-          var color = '#ff8000'
+          color = '#ff8000'
         }
         if (party == "GREENS") {
-          var color = '#78aede'
+          color = '#78aede'
         }
-        
-
-          
-          
-          
-          
           
         if (option[state]) {
           option[state].push({'name':party,'value':sentiment,itemStyle:{color:color}});

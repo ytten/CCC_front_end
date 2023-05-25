@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LayoutPage from "./pages/layout";
 import ProfilePage from "./pages/page";
 import KeywordPage from "./pages/page2";
+import ComparisonPage from './pages/page3';
 import {Layout, Menu } from 'antd'
 import './index.css';
 import 'antd/dist/antd.min.css';
@@ -19,6 +20,8 @@ export default function App() {
         <Route path="/" element={<LayoutPage />}>
           <Route index element={< ProfilePage />} />
           <Route path="Keyword" element={<KeywordPage />} />    
+          <Route path="ComparisonPage" element={<ComparisonPage />} />
+          
         </Route>
       </Routes>
     </BrowserRouter>
