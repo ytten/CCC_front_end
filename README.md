@@ -3,7 +3,7 @@ Yue Teng (1068010)
 Yuxin Ma (1067799) 
 Junqiang Lin (1118533) 
 Ke He (1068040) 
-Yue Teng ()
+Yue Teng (1068371)
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
